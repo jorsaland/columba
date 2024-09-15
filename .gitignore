@@ -1,5 +1,6 @@
 env/
 __pycache__/
+local_data/
 
 local_test.py
 local_database.csv
