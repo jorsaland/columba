@@ -1,11 +1,11 @@
-import csv, os, re
-from datetime import datetime
+import csv, os
 
 
-DATABASE_SKETCH_PATH = 'local_database.csv'
+from app.constants import DATABASE_SKETCH_PATH
+from app.utils.convert_time import convert_time
 
 
-def create_event(message: str, event_time: str):
+def create_event(event_time: str, message: str):
 
     """
     Adds an event to a local file.
@@ -19,27 +19,19 @@ def create_event(message: str, event_time: str):
         data = []
 
     # Append event and overwrite file
-    data.append([message, event_time])
+    data.append([event_time, message])
     with open(DATABASE_SKETCH_PATH, 'w') as file:
         csv.writer(file, lineterminator='\n').writerows(data)
 
 
-def convert_time(event_time: str):
-
-    """
-    Converts input time, which must be in ISO format with minute precision (YYYY-MM-DD hh:mm).
-    """
-
-    pattern = r'^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$'
-    if not re.match(pattern, event_time):
-        raise ValueError('time format must be: YYYY-MM-DD hh:mm')
-    return datetime.fromisoformat(event_time)
-
-
 def main():
+
+    """
+    Runs the events scheduler.
+    """
+
     while True:
         print('='*100)
-        message = input('Event message: ')
         while True:
             event_time = input('Event time: ')
             try:
@@ -48,7 +40,8 @@ def main():
                 print(exception)
             else:
                 break
-        create_event(message, event_time)
+        message = input('Event message: ')
+        create_event(event_time, message)
 
 
 if __name__ == '__main__':
