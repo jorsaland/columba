@@ -1,13 +1,11 @@
 """
-Columba 0.0
+Columba 0.1
 https://github.com/jorsaland/columba
 
 This is a back-end Web app capable of scheduling emails.
 
-In version 0.0, a prototype is developed. Here, two text files
-simulate the intended behaviour: 'local_database.csv' and
-'local_events.log'. Whilst the first one is used to store messages,
-the second one registers each message at the time it is 'sent'.
+In version 0.1, the prototype is improved. Now, events can be
+repeated every certain amount of time.
 """
 
 
