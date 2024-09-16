@@ -11,30 +11,10 @@ the second one registers each message at the time it is 'sent'.
 """
 
 
-import csv, os
+from app.constants import valid_time_units, MINUTES
 
-
-from app.constants import DATABASE_SKETCH_PATH
 from app.utils.convert_time import convert_time
-
-
-def create_event(event_time: str, message: str):
-
-    """
-    Adds an event to a local file.
-    """
-
-    # Read file
-    if os.path.exists(DATABASE_SKETCH_PATH):        
-        with open(DATABASE_SKETCH_PATH, 'r') as file:
-            data = list(csv.reader(file))
-    else:
-        data = []
-
-    # Append event and overwrite file
-    data.append([event_time, message])
-    with open(DATABASE_SKETCH_PATH, 'w') as file:
-        csv.writer(file, lineterminator='\n').writerows(data)
+from app.utils.database import create_event
 
 
 def main():
@@ -44,17 +24,48 @@ def main():
     """
 
     while True:
+
         print('='*100)
+
         while True:
-            event_time = input('Event time: ')
+            when_str = input('When: ')
             try:
-                convert_time(event_time)
+                when = convert_time(when_str)
             except Exception as exception:
                 print(exception)
             else:
                 break
+
         message = input('Event message: ')
-        create_event(event_time, message)
+
+        while True:
+            period_value_str = input('Repeat every (default 0): ')
+            if not period_value_str:
+                period_value_str = '0'
+            try:
+                period_value = int(period_value_str)
+            except Exception as exception:
+                print(exception)
+            else:
+                break
+
+        if not period_value > 0:
+            period_units = MINUTES
+        else:
+            while True:
+                period_units = input('Units (default minutes): ')
+                if not period_units:
+                    period_units = MINUTES
+                if period_units not in valid_time_units:
+                    print(f'Solo se admiten: {", ".join(valid_time_units)}')
+                else:
+                    break
+        create_event(
+            when = when,
+            message = message,
+            period_value = period_value,
+            period_units = period_units,
+        )
 
 
 if __name__ == '__main__':

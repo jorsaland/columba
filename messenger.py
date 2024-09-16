@@ -1,11 +1,18 @@
 import schedule
 
 
-import csv, os, time
-from datetime import datetime
+import time
+from datetime import datetime, timedelta
 
 
-from app.constants import DATABASE_SKETCH_PATH, LOGGER_SKETCH_PATH
+from app.constants import (
+    LOGGER_SKETCH_PATH,
+    MINUTES,
+    HOURS,
+    DAYS,
+    valid_time_units
+)
+from app.utils.database import create_event, read_events
 
 
 def add_log(log: str):
@@ -29,13 +36,34 @@ def job():
 
     messages: list[str] = []
 
-    if os.path.exists(DATABASE_SKETCH_PATH):
-        with open(DATABASE_SKETCH_PATH) as file:
-            data = list(csv.reader(file))
-            for str_event_time, message in data:
-                event_time = datetime.fromisoformat(str_event_time)
-                if now.isoformat().startswith(event_time.isoformat()):
-                    messages.append(message)
+    for when, message, period_value, period_units in read_events():
+
+        time_conditions = [
+            now.date() == when.date(),
+            now.hour == when.hour,
+            now.minute == when.minute,
+        ]
+        if all(time_conditions):
+
+            messages.append(message)
+            if period_value > 0:
+
+                if period_units == MINUTES:
+                    continuation_when = when + timedelta(minutes=period_value)
+                elif period_units == HOURS:
+                    continuation_when = when + timedelta(hours=period_value)
+                elif period_units == DAYS:
+                    continuation_when = when + timedelta(days=period_value)
+                else:
+                    add_log(f'!!! CORRUPTED EVENT: period units must be {", ".join(valid_time_units)}, not {period_units}')
+                    continue
+
+                create_event(
+                    when = continuation_when,
+                    message = message,
+                    period_value = period_value,
+                    period_units = period_units,
+                )
 
     for message in messages:
         add_log(f'>>> {message}')
