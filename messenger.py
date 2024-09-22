@@ -26,26 +26,28 @@ def job():
     Logs pending events.
     """
 
-    now = datetime.now()
+    raw_now = datetime.now()
+    now = datetime(
+        year = raw_now.year,
+        month = raw_now.month,
+        day = raw_now.day,
+        hour = raw_now.hour,
+        minute = raw_now.minute,
+    )
+
     add_log(f'COLUMBA {now}')
 
     messages: list[str] = []
 
-    for event in EventsRepository.read_all_events():
+    query = Event(next_runtime=now)
+    for event in EventsRepository.read_events_by_fields(query):
 
-        time_conditions = [
-            now.date() == event.next_runtime.date(),
-            now.hour == event.next_runtime.hour,
-            now.minute == event.next_runtime.minute,
-        ]
-        if all(time_conditions):
+        messages.append(event.message)
+        if event.period.total_seconds() > 0:
 
-            messages.append(event.message)
-            if event.period.total_seconds() > 0:
-
-                next_runtime = event.next_runtime + event.period
-                fields_to_update = Event(next_runtime=next_runtime)
-                EventsRepository.update_event(event_id=event.event_id, event=fields_to_update)
+            next_runtime = event.next_runtime + event.period
+            fields_to_update = Event(next_runtime=next_runtime)
+            EventsRepository.update_event(event.event_id, fields_to_update)
 
     for message in messages:
         add_log(f'>>> {message}')

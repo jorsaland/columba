@@ -49,7 +49,7 @@ class Event:
         if self.message is not None:
             database_dict[FIELD_NAME_MESSAGE] = self.message
         if self.period is not None:
-            database_dict[FIELD_NAME_PERIOD] = self.period.total_seconds()
+            database_dict[FIELD_NAME_PERIOD] = int(self.period.total_seconds())
 
         return database_dict
     
