@@ -2,7 +2,7 @@
 
 ### By jorsaland
 
-### Version: 0.1 *(under development)*
+### Version: 0.2 *(under development)*
 
 Run in paralell shells:
 

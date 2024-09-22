@@ -1,11 +1,11 @@
 """
-Columba 0.1
+Columba 0.2
 https://github.com/jorsaland/columba
 
 This is a back-end Web app capable of scheduling emails.
 
-In version 0.1, the prototype is improved. Now, events can be
-repeated every certain amount of time.
+In version 0.2, the prototype is improved again. Now, a SQL database
+stores events which are created, read and updated by the app.
 """
 
 
