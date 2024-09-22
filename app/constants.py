@@ -12,7 +12,10 @@ valid_time_units = [
     DAYS := 'd',
 ]
 
+TABLE_NAME_EVENTS = 'Events'
+
 ordered_fields = [
+    FIELD_NAME_EVENT_ID := 'event_id',
     FIELD_NAME_FIRST_RUNTIME := 'first_runtime',
     FIELD_NAME_NEXT_RUNTIME := 'next_runtime',
     FIELD_NAME_MESSAGE := 'message',

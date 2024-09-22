@@ -2,16 +2,10 @@ import schedule
 
 
 import time
-from datetime import datetime, timedelta
+from datetime import datetime
 
 
-from app.constants import (
-    LOGGER_SKETCH_PATH,
-    MINUTES,
-    HOURS,
-    DAYS,
-    valid_time_units
-)
+from app.constants import LOGGER_SKETCH_PATH
 from app.entities import Event
 from app.repositories.local_sql import EventsRepository
 
@@ -50,13 +44,8 @@ def job():
             if event.period.total_seconds() > 0:
 
                 next_runtime = event.next_runtime + event.period
-                continuation_event = Event(
-                    first_runtime = event.first_runtime,
-                    next_runtime = next_runtime,
-                    message = event.message,
-                    period = event.period,
-                )
-                EventsRepository.create_event(continuation_event)
+                fields_to_update = Event(next_runtime=next_runtime)
+                EventsRepository.update_event(event_id=event.event_id, event=fields_to_update)
 
     for message in messages:
         add_log(f'>>> {message}')

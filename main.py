@@ -9,9 +9,11 @@ repeated every certain amount of time.
 """
 
 
-from datetime import datetime, timedelta
+from datetime import timedelta
+from uuid import uuid1
 
-from app.constants import valid_time_units, MINUTES, HOURS, DAYS
+
+from app.constants import valid_time_units, MINUTES, HOURS
 
 from app.entities import Event
 from app.repositories.local_sql import EventsRepository, configure_database
@@ -72,6 +74,7 @@ def main():
             period = timedelta(days=period_value)
 
         event = Event(
+            event_id = str(uuid1()),
             first_runtime = when,
             next_runtime = when,
             message = message,

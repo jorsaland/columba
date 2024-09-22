@@ -40,3 +40,15 @@ class EventsRepository:
             result = connection.execute(select(cls._table))
             events = [Event.from_database_dict({k: v for k, v in zip(ordered_fields, row)}) for row in result.all()]
             return events
+
+
+    @classmethod
+    def update_event(cls, event_id: str, event: Event):
+
+        with cls._engine.connect() as connection:
+            connection.execute(
+                update(cls._table)
+                .where(cls._table.c.event_id == event_id)
+                .values(**event.as_database_dict())
+            )
+            connection.commit()
