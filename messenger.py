@@ -12,7 +12,8 @@ from app.constants import (
     DAYS,
     valid_time_units
 )
-from app.utils.database import create_event, read_events
+from app.entities import Event
+from app.repositories.local_sql import EventsRepository
 
 
 def add_log(log: str):
@@ -36,34 +37,26 @@ def job():
 
     messages: list[str] = []
 
-    for when, message, period_value, period_units in read_events():
+    for event in EventsRepository.read_all_events():
 
         time_conditions = [
-            now.date() == when.date(),
-            now.hour == when.hour,
-            now.minute == when.minute,
+            now.date() == event.next_runtime.date(),
+            now.hour == event.next_runtime.hour,
+            now.minute == event.next_runtime.minute,
         ]
         if all(time_conditions):
 
-            messages.append(message)
-            if period_value > 0:
+            messages.append(event.message)
+            if event.period.total_seconds() > 0:
 
-                if period_units == MINUTES:
-                    continuation_when = when + timedelta(minutes=period_value)
-                elif period_units == HOURS:
-                    continuation_when = when + timedelta(hours=period_value)
-                elif period_units == DAYS:
-                    continuation_when = when + timedelta(days=period_value)
-                else:
-                    add_log(f'!!! CORRUPTED EVENT: period units must be {", ".join(valid_time_units)}, not {period_units}')
-                    continue
-
-                create_event(
-                    when = continuation_when,
-                    message = message,
-                    period_value = period_value,
-                    period_units = period_units,
+                next_runtime = event.next_runtime + event.period
+                continuation_event = Event(
+                    first_runtime = event.first_runtime,
+                    next_runtime = next_runtime,
+                    message = event.message,
+                    period = event.period,
                 )
+                EventsRepository.create_event(continuation_event)
 
     for message in messages:
         add_log(f'>>> {message}')

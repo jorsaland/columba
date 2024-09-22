@@ -11,3 +11,10 @@ valid_time_units = [
     HOURS := 'h',
     DAYS := 'd',
 ]
+
+ordered_fields = [
+    FIELD_NAME_FIRST_RUNTIME := 'first_runtime',
+    FIELD_NAME_NEXT_RUNTIME := 'next_runtime',
+    FIELD_NAME_MESSAGE := 'message',
+    FIELD_NAME_PERIOD := 'period',
+]

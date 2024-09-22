@@ -9,10 +9,13 @@ repeated every certain amount of time.
 """
 
 
-from app.constants import valid_time_units, MINUTES
+from datetime import datetime, timedelta
 
+from app.constants import valid_time_units, MINUTES, HOURS, DAYS
+
+from app.entities import Event
+from app.repositories.local_sql import EventsRepository, configure_database
 from app.utils.convert_time import convert_time
-from app.utils.database import create_event
 
 
 def main():
@@ -20,6 +23,8 @@ def main():
     """
     Runs the events scheduler.
     """
+
+    configure_database()
 
     while True:
 
@@ -55,15 +60,24 @@ def main():
                 if not period_units:
                     period_units = MINUTES
                 if period_units not in valid_time_units:
-                    print(f'Solo se admiten: {", ".join(valid_time_units)}')
+                    print(f'Valid time units: {", ".join(valid_time_units)}')
                 else:
                     break
-        create_event(
-            when = when,
+
+        if period_units == MINUTES:
+            period = timedelta(minutes=period_value)
+        elif period_units == HOURS:
+            period = timedelta(hours=period_value)
+        else:
+            period = timedelta(days=period_value)
+
+        event = Event(
+            first_runtime = when,
+            next_runtime = when,
             message = message,
-            period_value = period_value,
-            period_units = period_units,
+            period = period,
         )
+        EventsRepository.create_event(event)
 
 
 if __name__ == '__main__':
