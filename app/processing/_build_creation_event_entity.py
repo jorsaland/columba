@@ -74,7 +74,7 @@ def build_event_creation_entity(request_dict: dict[str, Any]):
 
     # State
 
-    ### Validations
+    ### validations
     if IO_FIELD_STATE in request_dict.keys():
         try:
             state = catch_invalid_value_type(
@@ -93,7 +93,7 @@ def build_event_creation_entity(request_dict: dict[str, Any]):
         else:
             event_to_create.state = state
     
-    ### Set default state
+    ### set default state
     else:
         if switches.DEFAULT_ACTIVE:
             event_to_create.state = ACTIVE
@@ -102,7 +102,7 @@ def build_event_creation_entity(request_dict: dict[str, Any]):
 
     # Period
 
-    ### Validations
+    ### validations
     if IO_FIELD_PERIOD in request_dict.keys():
         try:
             input_period = catch_invalid_value_type(
@@ -118,7 +118,7 @@ def build_event_creation_entity(request_dict: dict[str, Any]):
         else:
             event_to_create.period = period
 
-    ### Set default period
+    ### set default period
     else:
         event_to_create.period = timedelta(0)
 

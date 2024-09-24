@@ -1,0 +1,66 @@
+Create an event from a request body.
+---
+
+description: |
+  Events will be filtered by each query parameter.
+
+  If no query parameters are parsed, all events will be retrieved.
+
+tags:
+- Events
+
+parameters:
+  - name: event_id
+    in: query
+    schema:
+      type: string
+  - name: state
+    in: query
+    schema:
+      type: string
+  - name: first_runtime
+    in: query
+    schema:
+      type: string
+  - name: next_runtime
+    in: query
+    schema:
+      type: string
+  - name: period
+    in: query
+    schema:
+      type: string
+
+
+responses:
+  200:
+    description: Successful request.
+    content:
+      application/json:
+        schema:
+          type: array
+          items:
+            type: object
+            properties:
+              event_id:
+                type: string
+                description: Unique ID for the event.
+              state:
+                type: string
+                description: State of the event ("active" or "paused").
+              first_runtime:
+                type: string
+                description: First time when the event was or will be run.
+              next_runtime:
+                type: string
+                description: Next time when the event will be run.
+              period:
+                type: string
+                description: How often the event will be repeated in format "Ad Bh Cm", where A, B, C are days, hours and minutes, respectively.
+              message:
+                type: string
+                description: Message to be sent by the event.
+  409:
+    description: Wrong request input.
+  500:
+    description: Unexpected error.

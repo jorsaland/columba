@@ -23,7 +23,13 @@ from app.constants import (
     IO_FIELD_STATE,
     MINUTES,
 )
-from app.utils.conversions import convert_timedelta_to_int, convert_timedelta_to_str
+
+from app.utils.flags import IGNORE_FLAG
+from app.utils.conversions import (
+    convert_timedelta_to_int,
+    convert_timedelta_to_str,
+    convert_datetime_to_str,
+)
 
 
 @dataclass
@@ -34,12 +40,12 @@ class Event:
     Represents events.
     """
 
-    event_id: str = None
-    state: str = None
-    first_runtime: datetime = None
-    next_runtime: datetime = None
-    message: str = None
-    period: timedelta = None
+    event_id: str = IGNORE_FLAG
+    state: str = IGNORE_FLAG
+    first_runtime: datetime = IGNORE_FLAG
+    next_runtime: datetime = IGNORE_FLAG
+    message: str = IGNORE_FLAG
+    period: timedelta = IGNORE_FLAG
 
 
     def as_database_dict(self):
@@ -50,17 +56,17 @@ class Event:
 
         database_dict: dict[str, Any] = {}
 
-        if self.event_id is not None:
+        if self.event_id is not IGNORE_FLAG:
             database_dict[FIELD_NAME_EVENT_ID] = self.event_id
-        if self.state is not None:
+        if self.state is not IGNORE_FLAG:
             database_dict[FIELD_NAME_STATE] = self.state
-        if self.first_runtime is not None:
-            database_dict[FIELD_NAME_FIRST_RUNTIME] = self.first_runtime.isoformat()
-        if self.next_runtime is not None:
-            database_dict[FIELD_NAME_NEXT_RUNTIME] = self.next_runtime.isoformat()
-        if self.message is not None:
+        if self.first_runtime is not IGNORE_FLAG:
+            database_dict[FIELD_NAME_FIRST_RUNTIME] = convert_datetime_to_str(self.first_runtime)
+        if self.next_runtime is not IGNORE_FLAG:
+            database_dict[FIELD_NAME_NEXT_RUNTIME] = convert_datetime_to_str(self.next_runtime)
+        if self.message is not IGNORE_FLAG:
             database_dict[FIELD_NAME_MESSAGE] = self.message
-        if self.period is not None:
+        if self.period is not IGNORE_FLAG:
             database_dict[FIELD_NAME_PERIOD] = convert_timedelta_to_int(self.period)
 
         return database_dict
@@ -74,17 +80,17 @@ class Event:
 
         response_dict: dict[str, Any] = {}
 
-        if self.event_id is not None:
+        if self.event_id is not IGNORE_FLAG:
             response_dict[IO_FIELD_EVENT_ID] = self.event_id
-        if self.state is not None:
+        if self.state is not IGNORE_FLAG:
             response_dict[IO_FIELD_STATE] = self.state
-        if self.first_runtime is not None:
-            response_dict[IO_FIELD_FIRST_RUNTIME] = self.first_runtime.isoformat()
-        if self.next_runtime is not None:
-            response_dict[IO_FIELD_NEXT_RUNTIME] = self.next_runtime.isoformat()
-        if self.message is not None:
+        if self.first_runtime is not IGNORE_FLAG:
+            response_dict[IO_FIELD_FIRST_RUNTIME] = convert_datetime_to_str(self.first_runtime)
+        if self.next_runtime is not IGNORE_FLAG:
+            response_dict[IO_FIELD_NEXT_RUNTIME] = convert_datetime_to_str(self.next_runtime)
+        if self.message is not IGNORE_FLAG:
             response_dict[IO_FIELD_MESSAGE] = self.message
-        if self.period is not None:
+        if self.period is not IGNORE_FLAG:
             response_dict[IO_FIELD_PERIOD] = convert_timedelta_to_str(self.period)
 
         return response_dict

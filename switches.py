@@ -7,6 +7,10 @@ DEFAULT_ACTIVE = True
 # True  --> Events are created active by default
 # False --> Events are created paused by default
 
+REJECT_INVALID_QUERY_PARAMS = True
+# True  --> Respond with error if there are invalid query params in a GET request 
+# False --> Just leave a log if there are invalid query params in a GET request
+
 UNICODE_RESPONSES = True
 # True  --> All Unicode characters are used in Flask responses
 # False --> Only ASCII characters are used in Flask responses

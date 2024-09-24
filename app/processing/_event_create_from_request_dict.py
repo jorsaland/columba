@@ -35,4 +35,4 @@ def event_create_from_request_dict(request_dict: dict[str, Any]):
     # Validate and convert values
 
     event_to_create = build_event_creation_entity(request_dict)
-    return EventsRepository.create_event(event_to_create)
+    return EventsRepository.insert_event(event_to_create)

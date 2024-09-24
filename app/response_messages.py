@@ -2,7 +2,6 @@
 Defines the response messages.
 """
 
-
 # Messages for API responses
 
 response_message_successful = 'Successful {method}.'
@@ -13,8 +12,9 @@ response_message_hard_unexpected_error = 'An unexpected error occured:\n{full_tr
 response_message_invalid_categorical_value = 'Invalid categorical value ({invalid_value}). Valid values are: {categorical_values}.'
 response_message_invalid_field_names = 'There are invalid field names ({invalid_names}). The valid names are: {valid_names}.'
 response_message_invalid_field_type = "The field type must be '{valid_type}', not '{invalid_type}'."
-response_message_invalid_runtime_format = 'Runtime format must be: YYYY-MM-DD hh:mm'
 response_message_invalid_period_format = "Period format must be: 'Ad Bh Cm', where A, B, C are days, hours and minutes, respectively."
+response_message_invalid_query_params = 'Invalid query parameters ({invalid_names}). Valid parameters are: {valid_names}.'
+response_message_invalid_runtime_format = 'Runtime format must be: YYYY-MM-DD hh:mm'
 response_message_missing_required_fields = 'Some mandatory fields are missing ({missing_required_fields}).'
 response_message_no_request_body = 'Request body is missing.'
 response_message_not_found = 'The requested event was not found.'

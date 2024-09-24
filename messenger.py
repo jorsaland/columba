@@ -51,8 +51,8 @@ def job():
 
     messages: list[str] = []
 
-    query = Event(next_runtime=now)
-    for event in EventsRepository.read_events_by_fields(query):
+    filter_event = Event(next_runtime=now)
+    for event in EventsRepository.select_events_by_filter(filter_event):
 
         if event.state == ACTIVE:
             messages.append(event.message)

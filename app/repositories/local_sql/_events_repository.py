@@ -1,4 +1,4 @@
-from sqlalchemy import MetaData, insert, select, update
+from sqlalchemy import MetaData, insert, select, update, delete
 
 
 from typing import Any
@@ -28,7 +28,7 @@ class EventsRepository:
 
 
     @classmethod
-    def create_event(cls, event: Event):
+    def insert_event(cls, event: Event):
 
         statement = (
             insert(cls._table)
@@ -39,11 +39,11 @@ class EventsRepository:
             connection.execute(statement)
             connection.commit()
         
-        return cls.read_event_by_id(event.event_id)
+        return cls.select_event_by_id(event.event_id)
 
 
     @classmethod
-    def read_all_events(cls):
+    def select_all_events(cls):
 
         with cls._engine.connect() as connection:
             result = connection.execute(select(cls._table))
@@ -53,7 +53,7 @@ class EventsRepository:
 
 
     @classmethod
-    def read_event_by_id(cls, event_id: str):
+    def select_event_by_id(cls, event_id: str):
 
         statement = (
             select(cls._table)
@@ -71,10 +71,10 @@ class EventsRepository:
 
 
     @classmethod
-    def read_events_by_fields(cls, query: Event):
+    def select_events_by_filter(cls, filters: Event):
 
         statement = select(cls._table)
-        for field_name, field_value in query.as_database_dict().items():
+        for field_name, field_value in filters.as_database_dict().items():
             statement = statement.where(getattr(cls._table.c, field_name) == field_value)
 
         with cls._engine.connect() as connection:
@@ -87,7 +87,7 @@ class EventsRepository:
     @classmethod
     def update_event(cls, event_id: str, updates: Event):
 
-        cls.read_event_by_id(event_id)
+        cls.select_event_by_id(event_id)
 
         statement = (
             update(cls._table)
@@ -99,4 +99,21 @@ class EventsRepository:
             connection.execute(statement)
             connection.commit()
         
-        return cls.read_event_by_id(event_id)
+        return cls.select_event_by_id(event_id)
+
+
+    @classmethod
+    def delete_event(cls, event_id: str):
+
+        event = cls.select_event_by_id(event_id)
+
+        statement = (
+            delete(cls._table)
+            .where(cls._table.c.event_id == event_id)
+        )
+
+        with cls._engine.connect() as connection:
+            connection.execute(statement)
+            connection.commit()
+        
+        return event
