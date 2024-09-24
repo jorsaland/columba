@@ -51,12 +51,13 @@ def job():
 
     messages: list[str] = []
 
-    query = Event(next_runtime=now, state=ACTIVE)
+    query = Event(next_runtime=now)
     for event in EventsRepository.read_events_by_fields(query):
 
-        messages.append(event.message)
-        if event.period.total_seconds() > 0:
+        if event.state == ACTIVE:
+            messages.append(event.message)
 
+        if event.period.total_seconds() > 0:
             next_runtime = event.next_runtime + event.period
             fields_to_update = Event(next_runtime=next_runtime)
             EventsRepository.update_event(event.event_id, fields_to_update)
