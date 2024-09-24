@@ -17,14 +17,13 @@ from app.constants import (
     FIELD_NAME_STATE,
     IO_FIELD_EVENT_ID,
     IO_FIELD_MESSAGE,
-    IO_FIELD_PERIOD_UNITS,
-    IO_FIELD_PERIOD_VALUE,
+    IO_FIELD_PERIOD,
     IO_FIELD_FIRST_RUNTIME,
     IO_FIELD_NEXT_RUNTIME,
     IO_FIELD_STATE,
     MINUTES,
 )
-from app.utils.conversions import convert_timedelta_to_int
+from app.utils.conversions import convert_timedelta_to_int, convert_timedelta_to_str
 
 
 @dataclass
@@ -86,9 +85,7 @@ class Event:
         if self.message is not None:
             response_dict[IO_FIELD_MESSAGE] = self.message
         if self.period is not None:
-            response_dict[IO_FIELD_PERIOD_VALUE] = convert_timedelta_to_int(self.period)
-        if self.period is not None:
-            response_dict[IO_FIELD_PERIOD_UNITS] = MINUTES
+            response_dict[IO_FIELD_PERIOD] = convert_timedelta_to_str(self.period)
 
         return response_dict
 

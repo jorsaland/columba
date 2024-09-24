@@ -35,8 +35,7 @@ ordered_fields = [
 IO_FIELD_EVENT_ID = 'event_id'
 IO_FIELD_MESSAGE = 'message'
 IO_FIELD_STATE = 'state'
-IO_FIELD_PERIOD_VALUE = 'period_value'
-IO_FIELD_PERIOD_UNITS = 'period_units'
+IO_FIELD_PERIOD = 'period'
 IO_FIELD_RUNTIME = 'runtime'
 IO_FIELD_FIRST_RUNTIME = 'first_runtime'
 IO_FIELD_NEXT_RUNTIME = 'next_runtime'
@@ -44,8 +43,7 @@ IO_FIELD_NEXT_RUNTIME = 'next_runtime'
 creation_request_valid_fields = [
     IO_FIELD_MESSAGE,
     IO_FIELD_STATE,
-    IO_FIELD_PERIOD_VALUE,
-    IO_FIELD_PERIOD_UNITS,
+    IO_FIELD_PERIOD,
     IO_FIELD_RUNTIME,
 ]
 

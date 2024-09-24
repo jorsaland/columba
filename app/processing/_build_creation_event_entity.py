@@ -9,25 +9,20 @@ from typing import Any
 
 from app.constants import (
     IO_FIELD_MESSAGE,
-    IO_FIELD_PERIOD_UNITS,
-    IO_FIELD_PERIOD_VALUE,
+    IO_FIELD_PERIOD,
     IO_FIELD_RUNTIME,
     IO_FIELD_STATE,
     ACTIVE,
     PAUSED,
-    MINUTES,
-    HOURS,
-    DAYS,
     valid_states,
-    valid_period_units,
 )
 
 from app.entities import Event
 
-from app.response_messages import base_field_error_message, admin_message_unmanaged_case
+from app.response_messages import base_field_error_message
 
-from app.utils.conversions import convert_str_to_datetime
-from app.utils.exceptions import ValidationError, DevelopmentError
+from app.utils.conversions import convert_str_to_datetime, convert_str_to_timedelta
+from app.utils.exceptions import ValidationError
 from app.utils.field_validations import catch_invalid_value_type, catch_invalid_categorical_value
 from app.utils.generate_id import generate_id
 
@@ -107,52 +102,25 @@ def build_event_creation_entity(request_dict: dict[str, Any]):
 
     # Period
 
-    ### Units validations or set default units
-    if IO_FIELD_PERIOD_UNITS in request_dict.keys():
+    ### Validations
+    if IO_FIELD_PERIOD in request_dict.keys():
         try:
-            period_units = catch_invalid_value_type(
-                field_value = request_dict[IO_FIELD_PERIOD_UNITS],
+            input_period = catch_invalid_value_type(
+                field_value = request_dict[IO_FIELD_PERIOD],
                 valid_type = str,
             )
-            catch_invalid_categorical_value(
-                field_value = period_units,
-                categorical_values = valid_period_units,
-            )
+            period = convert_str_to_timedelta(input_period)
         except ValidationError as exception:
-            error_message_base = base_field_error_message.format(field_name=IO_FIELD_PERIOD_UNITS)
+            error_message_base = base_field_error_message.format(field_name=IO_FIELD_PERIOD)
             _, error_message_body = exception.args
             error_message = error_message_base + ' ' + error_message_body
             error_messages.append(error_message)
-            period_units = MINUTES
-    else:
-        period_units = MINUTES
+        else:
+            event_to_create.period = period
 
-    ### Units validations or set default units
-    if IO_FIELD_PERIOD_VALUE in request_dict.keys():
-        try:
-            period_value = catch_invalid_value_type(
-                field_value = request_dict[IO_FIELD_PERIOD_VALUE],
-                valid_type = int,
-            )
-        except ValidationError as exception:
-            error_message_base = base_field_error_message.format(field_name=IO_FIELD_PERIOD_VALUE)
-            _, error_message_body = exception.args
-            error_message = error_message_base + ' ' + error_message_body
-            error_messages.append(error_message)
-            period_value = 0
+    ### Set default period
     else:
-        period_value = 0
-
-    ### Generate timedelta from units and value
-    if period_units == MINUTES:
-        event_to_create.period = timedelta(minutes=period_value)
-    elif period_units == HOURS:
-        event_to_create.period = timedelta(hours=period_value)
-    elif period_units == DAYS:
-        event_to_create.period = timedelta(days=period_value)
-    else:
-        error_message = admin_message_unmanaged_case.format(case=period_units)
-        raise DevelopmentError(error_message)
+        event_to_create.period = timedelta(0)
 
     # Concatenate error messages
 

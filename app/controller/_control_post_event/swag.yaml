@@ -28,12 +28,9 @@ requestBody:
           state:
             type: string
             description: State of the event ("active" or "paused").
-          period_value:
-            type: integer
-            description: How often the event will be repeated in the specified period units.
-          period_units:
+          period:
             type: string
-            description: Units that determine how often the event will be repeated ("d" for days, "h" for hours, "m" for minutes).
+            description: How often the event will be repeated in format "Ad Bh Cm", where A, B, C are days, hours and minutes, respectively.
 
 responses:
   200:
@@ -55,12 +52,9 @@ responses:
             next_runtime:
               type: string
               description: Next time when the event will be run.
-            period_units:
+            period:
               type: string
-              description: Time units on how often the event will be run.
-            period_value:
-              type: string
-              description: How often the event will be run.
+              description: How often the event will be repeated in format "Ad Bh Cm", where A, B, C are days, hours and minutes, respectively.
             message:
               type: string
               description: Message to be sent by the event.
