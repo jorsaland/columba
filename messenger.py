@@ -1,3 +1,15 @@
+"""
+Columba 0.2
+https://github.com/jorsaland/columba
+
+This is where Columba send the messages.
+
+---------------------------------------------------------------------
+
+Please, run both this script and main.py
+"""
+
+
 import schedule
 
 
@@ -7,13 +19,13 @@ from datetime import datetime
 
 from app.constants import LOGGER_SKETCH_PATH
 from app.entities import Event
-from app.repositories.local_sql import EventsRepository
+from app.repositories.local_sql import EventsRepository, configure_database
 
 
 def add_log(log: str):
 
     """
-    Adds a log to log file.
+    Adds a log to a file.
     """
 
     with open(LOGGER_SKETCH_PATH, 'a', newline='\n') as file:
@@ -59,7 +71,8 @@ def main():
     Runs the events messenger.
     """
 
-    add_log('===== INICIANDO COLUMBA =====')
+    add_log('===== STARTING COLUMBA =====')
+    configure_database()
     for minute in range(60):
         formatted_minute = str(minute).rjust(2, '0')
         schedule.every().hour.at(f':{formatted_minute}').do(job)

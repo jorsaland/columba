@@ -13,6 +13,7 @@ from app.constants import (
     FIELD_NAME_EVENT_ID,
     FIELD_NAME_MESSAGE,
     FIELD_NAME_PERIOD,
+    FIELD_NAME_STATE,
 )
 
 
@@ -25,6 +26,7 @@ def get_events_table(metadata: MetaData):
     return Table(
         TABLE_NAME_EVENTS, metadata,
         Column(FIELD_NAME_EVENT_ID, VARCHAR),
+        Column(FIELD_NAME_STATE, VARCHAR),
         Column(FIELD_NAME_FIRST_RUNTIME, VARCHAR),
         Column(FIELD_NAME_NEXT_RUNTIME, VARCHAR),
         Column(FIELD_NAME_MESSAGE, TEXT),

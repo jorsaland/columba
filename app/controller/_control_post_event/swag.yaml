@@ -1,0 +1,70 @@
+Create an event from a request body.
+---
+
+description: |
+  Mandatory parameters:
+  - runtime
+  - message
+
+  Optional parameters:
+  - state
+  - period
+
+tags:
+- Events
+
+requestBody:
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          runtime:
+            type: string
+            description: Time when the event will be run.
+          message:
+            type: string
+            description: Message to be sent by the event.
+          state:
+            type: string
+            description: State of the event ("active" or "paused").
+          period_value:
+            type: integer
+            description: How often the event will be repeated in the specified period units.
+          period_units:
+            type: string
+            description: Units that determine how often the event will be repeated ("d" for days, "h" for hours, "m" for minutes).
+
+responses:
+  200:
+    description: Successful request.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            event_id:
+              type: string
+              description: Unique ID for the event.
+            state:
+              type: string
+              description: State of the event ("active" or "paused").
+            first_runtime:
+              type: string
+              description: First time when the event was or will be run.
+            next_runtime:
+              type: string
+              description: Next time when the event will be run.
+            period_units:
+              type: string
+              description: Time units on how often the event will be run.
+            period_value:
+              type: string
+              description: How often the event will be run.
+            message:
+              type: string
+              description: Message to be sent by the event.
+  409:
+    description: Wrong request input.
+  500:
+    description: Unexpected error.

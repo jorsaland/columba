@@ -6,6 +6,8 @@ from typing import Any
 
 from app.constants import ordered_fields
 from app.entities import Event
+from app.response_messages import response_message_not_found
+from app.utils.exceptions import ValidationError
 
 
 from ._get_engine import get_engine
@@ -36,6 +38,8 @@ class EventsRepository:
         with cls._engine.connect() as connection:
             connection.execute(statement)
             connection.commit()
+        
+        return cls.read_event_by_id(event.event_id)
 
 
     @classmethod
@@ -46,6 +50,24 @@ class EventsRepository:
             events = [Event.from_database_dict({k: v for k, v in zip(ordered_fields, row)}) for row in result.all()]
         
         return events
+
+
+    @classmethod
+    def read_event_by_id(cls, event_id: str):
+
+        statement = (
+            select(cls._table)
+            .where(cls._table.c.event_id == event_id)
+        )
+
+        with cls._engine.connect() as connection:
+            result = connection.execute(statement)
+            event_matches = [Event.from_database_dict({k: v for k, v in zip(ordered_fields, row)}) for row in result.all()]
+
+        if not event_matches:
+            raise ValidationError(code=404, message=response_message_not_found)
+
+        return event_matches[0]
 
 
     @classmethod
@@ -65,6 +87,8 @@ class EventsRepository:
     @classmethod
     def update_event(cls, event_id: str, updates: Event):
 
+        cls.read_event_by_id(event_id)
+
         statement = (
             update(cls._table)
             .where(cls._table.c.event_id == event_id)
@@ -74,3 +98,5 @@ class EventsRepository:
         with cls._engine.connect() as connection:
             connection.execute(statement)
             connection.commit()
+        
+        return cls.read_event_by_id(event_id)
