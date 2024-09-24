@@ -2,9 +2,9 @@
 
 ### By jorsaland
 
-### Version: 0.2 *(under development)*
+### Version: 0.3 *(under development)*
 
-Run in paralell shells:
+Run both scripts:
 
 `python main.py`
 

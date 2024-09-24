@@ -1,5 +1,5 @@
 """
-Columba 0.2
+Columba 0.3
 https://github.com/jorsaland/columba
 
 This is where Columba send the messages.
@@ -17,7 +17,7 @@ import time
 from datetime import datetime
 
 
-from app.constants import LOGGER_SKETCH_PATH
+from app.constants import LOGGER_SKETCH_PATH, ACTIVE
 from app.entities import Event
 from app.repositories.local_sql import EventsRepository, configure_database
 
@@ -51,7 +51,7 @@ def job():
 
     messages: list[str] = []
 
-    query = Event(next_runtime=now)
+    query = Event(next_runtime=now, state=ACTIVE)
     for event in EventsRepository.read_events_by_fields(query):
 
         messages.append(event.message)
