@@ -1,10 +1,10 @@
 """
-Columba 0.3
+Columba 0.4
 https://github.com/jorsaland/columba
 
 A back-end Web app capable of scheduling emails.
 
-In version 0.3, an API is added with Flask.
+In version 0.4, an email delivery system is implemented.
 
 ----------------------------------------------------------------------
 

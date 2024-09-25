@@ -2,7 +2,7 @@
 
 ### By jorsaland
 
-### Version: 0.3 *(under development)*
+### Version: 0.4 *(under development)*
 
 Run both scripts:
 
