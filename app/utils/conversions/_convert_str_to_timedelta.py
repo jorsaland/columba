@@ -18,7 +18,7 @@ def convert_str_to_timedelta(value: str):
     Converts input delta, which must be in format "Ad Bh Cm", where A, B and C are days, hours and minutes respectively.
     """
 
-    pattern = fr'^\d[{MINUTES}{HOURS}{DAYS}]$'
+    pattern = fr'^\d+[{MINUTES}{HOURS}{DAYS}]$'
 
     delta_map = {
         DAYS: 0,
@@ -32,8 +32,9 @@ def convert_str_to_timedelta(value: str):
             continue
         if not re.match(pattern, raw_delta):
             raise ValidationError(code=409, message=response_message_invalid_period_format)
-        period_value, period_units = raw_delta
-        delta_map[period_units] = int(period_value)
+        period_units = raw_delta[-1]
+        period_value = int(raw_delta[:-1])
+        delta_map[period_units] = period_value
 
     return timedelta(
         days = delta_map[DAYS],

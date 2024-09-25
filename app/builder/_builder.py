@@ -10,8 +10,9 @@ from flask_cors import CORS
 
 from app import constants
 from app.controller import (
-    control_post_event,
     control_get_events,
+    control_post_event,
+    control_put_event,
     control_delete_event,
 )
 import switches
@@ -37,8 +38,9 @@ def build_app():
     CORS(app, resources=constants.cors_resources)
 
     # Endpoints configuration
-    app.add_url_rule(methods=['POST'],   rule='/event',  view_func=control_post_event)
-    app.add_url_rule(methods=['GET'],    rule='/events', view_func=control_get_events)
-    app.add_url_rule(methods=['DELETE'], rule='/event/<string:event_id>',  view_func=control_delete_event)
+    app.add_url_rule(methods=['GET'],    view_func=control_get_events,   rule='/events')
+    app.add_url_rule(methods=['POST'],   view_func=control_post_event,   rule='/event')
+    app.add_url_rule(methods=['PUT'],    view_func=control_put_event,    rule='/event/<string:event_id>')
+    app.add_url_rule(methods=['DELETE'], view_func=control_delete_event, rule='/event/<string:event_id>')
 
     return app

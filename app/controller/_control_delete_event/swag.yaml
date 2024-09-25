@@ -1,4 +1,4 @@
-Create an event from a request body.
+Delete an event from a request body.
 ---
 
 description: |
@@ -46,7 +46,5 @@ responses:
                 description: Message to be sent by the event.
   404:
     description: Event does not exist.
-  409:
-    description: Wrong request input.
   500:
     description: Unexpected error.

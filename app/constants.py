@@ -40,6 +40,14 @@ IO_FIELD_RUNTIME = 'runtime'
 IO_FIELD_FIRST_RUNTIME = 'first_runtime'
 IO_FIELD_NEXT_RUNTIME = 'next_runtime'
 
+valid_query_params = [
+    IO_FIELD_EVENT_ID,
+    IO_FIELD_STATE,
+    IO_FIELD_FIRST_RUNTIME,
+    IO_FIELD_NEXT_RUNTIME,
+    IO_FIELD_PERIOD,
+]
+
 creation_request_valid_fields = [
     IO_FIELD_MESSAGE,
     IO_FIELD_STATE,
@@ -52,12 +60,11 @@ creation_request_mandatory_fields = [
     IO_FIELD_RUNTIME,
 ]
 
-valid_query_params = [
-    IO_FIELD_EVENT_ID,
+update_request_valid_fields = [
+    IO_FIELD_MESSAGE,
     IO_FIELD_STATE,
-    IO_FIELD_FIRST_RUNTIME,
-    IO_FIELD_NEXT_RUNTIME,
     IO_FIELD_PERIOD,
+    IO_FIELD_NEXT_RUNTIME,
 ]
 
 valid_states = [

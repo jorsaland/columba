@@ -1,4 +1,4 @@
-Create an event from a request body.
+Retrieve all events or filter them with query params.
 ---
 
 description: |

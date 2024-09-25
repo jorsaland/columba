@@ -1,19 +1,16 @@
 """
-Defines the function that builds an Event entity to create from a request dict.
+Defines the function that builds an Event entity to update from a request dict.
 """
 
 
-from datetime import timedelta
 from typing import Any
 
 
 from app.constants import (
     IO_FIELD_MESSAGE,
     IO_FIELD_PERIOD,
-    IO_FIELD_RUNTIME,
+    IO_FIELD_NEXT_RUNTIME,
     IO_FIELD_STATE,
-    ACTIVE,
-    PAUSED,
     valid_states,
 )
 
@@ -24,18 +21,15 @@ from app.response_messages import base_field_error_message
 from app.utils.conversions import convert_str_to_datetime, convert_str_to_timedelta
 from app.utils.exceptions import ValidationError
 from app.utils.field_validations import catch_invalid_value_type, catch_invalid_categorical_value
-from app.utils.generate_id import generate_id
-
-import switches
 
 
-def build_creation_event_entity(request_dict: dict[str, Any]):
+def build_update_event_entity(request_dict: dict[str, Any]):
 
     """
-    Builds an Event entity to create from a request dict.
+    Builds an Event entity to update from a request dict.
     """
 
-    event_to_create = Event()
+    update_event = Event()
     error_messages: list[str] = []
 
     # Message
@@ -52,11 +46,11 @@ def build_creation_event_entity(request_dict: dict[str, Any]):
             error_message = error_message_base + ' ' + error_message_body
             error_messages.append(error_message)
         else:
-            event_to_create.message = message
+            update_event.message = message
 
-    # First and next runtimes
+    # Next runtimes
 
-    if (field_value := request_dict.get(IO_FIELD_RUNTIME)) is not None:
+    if (field_value := request_dict.get(IO_FIELD_NEXT_RUNTIME)) is not None:
         try:
             input_runtime = catch_invalid_value_type(
                 field_value = field_value,
@@ -64,17 +58,15 @@ def build_creation_event_entity(request_dict: dict[str, Any]):
             )
             runtime = convert_str_to_datetime(input_runtime)
         except ValidationError as exception:
-            error_message_base = base_field_error_message.format(field_name=IO_FIELD_RUNTIME)
+            error_message_base = base_field_error_message.format(field_name=IO_FIELD_NEXT_RUNTIME)
             _, error_message_body = exception.args
             error_message = error_message_base + ' ' + error_message_body
             error_messages.append(error_message)
         else:
-            event_to_create.first_runtime = runtime
-            event_to_create.next_runtime = runtime
+            update_event.next_runtime = runtime
 
     # State
 
-    ### validations
     if (field_value := request_dict.get(IO_FIELD_STATE)) is not None:
         try:
             state = catch_invalid_value_type(
@@ -91,18 +83,10 @@ def build_creation_event_entity(request_dict: dict[str, Any]):
             error_message = error_message_base + ' ' + error_message_body
             error_messages.append(error_message)
         else:
-            event_to_create.state = state
-    
-    ### set default state
-    else:
-        if switches.DEFAULT_ACTIVE:
-            event_to_create.state = ACTIVE
-        else:
-            event_to_create.state = PAUSED
+            update_event.state = state
 
     # Period
 
-    ### validations
     if (field_value := request_dict.get(IO_FIELD_PERIOD)) is not None:
         try:
             input_period = catch_invalid_value_type(
@@ -116,11 +100,7 @@ def build_creation_event_entity(request_dict: dict[str, Any]):
             error_message = error_message_base + ' ' + error_message_body
             error_messages.append(error_message)
         else:
-            event_to_create.period = period
-
-    ### set default period
-    else:
-        event_to_create.period = timedelta(0)
+            update_event.period = period
 
     # Concatenate error messages
 
@@ -129,5 +109,4 @@ def build_creation_event_entity(request_dict: dict[str, Any]):
 
     # Add event ID and return
 
-    event_to_create.event_id = generate_id()
-    return event_to_create
+    return update_event

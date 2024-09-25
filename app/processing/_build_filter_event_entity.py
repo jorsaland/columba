@@ -1,5 +1,5 @@
 """
-Defines the function that builds an Event entity to create from a request dict.
+Defines the function that builds a filter Event entity from a query parameters dict.
 """
 
 
@@ -26,7 +26,7 @@ import switches
 def build_filter_event_entity(query_params: dict[str, str]):
 
     """
-    Builds a filter Event entity from a request dict.
+    Builds a filter Event entity from a query parameters dict.
     """
 
     filter_event = Event()

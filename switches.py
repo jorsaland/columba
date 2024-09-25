@@ -1,5 +1,5 @@
 """
-Define los interruptores (valores booleanos) para encender o apagar funcionalidades.
+Defines boolean to turn on/off some functions.
 """
 
 
