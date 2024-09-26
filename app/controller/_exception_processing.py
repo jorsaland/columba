@@ -25,7 +25,7 @@ def exception_processing(controller_function: Callable[..., tuple[Response, int]
     Runs a controller function and converts exceptions to API responses.
     """
 
-    @wraps(controller_function) ## conserva la identidad de la función decorada, evitando conflictos en los endpoints de Flask
+    @wraps(controller_function)
     def wrapper(*args, **kwargs):
 
         try:
