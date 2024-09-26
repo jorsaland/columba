@@ -3,9 +3,6 @@ Defines the app constants.
 """
 
 
-from typing import Tuple
-
-
 # Flask constants
 
 APP_NAME = 'columba'
@@ -78,7 +75,7 @@ valid_period_units = [
     DAYS := 'd',
 ]
 
-json_valid_types: Tuple[type, ...] = (str, int, float, bool, list, dict, type(None))
+json_valid_types: tuple[type, ...] = (str, int, float, bool, list, dict, type(None))
 
 
 # OpenAPI and Swagger constants
@@ -96,8 +93,3 @@ swagger_schema = {'components': {'securitySchemes': {'Bearer': {
 # CORS constants
 
 cors_resources = {'/*': {'origins': '*'}}
-
-
-# Delete imports
-
-del Tuple
