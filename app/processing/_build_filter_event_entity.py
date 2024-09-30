@@ -51,7 +51,7 @@ def build_filter_event_entity(query_params: dict[str, str]):
             error_message = error_message_base + ' ' + error_message_body
             error_messages.append(error_message)
         else:
-            filter_event.event_id = state
+            filter_event.state = state
 
     # First runtime
 
