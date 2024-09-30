@@ -74,9 +74,7 @@ def main():
 
     add_log('===== STARTING COLUMBA =====')
     configure_database()
-    for minute in range(60):
-        formatted_minute = str(minute).rjust(2, '0')
-        schedule.every().hour.at(f':{formatted_minute}').do(job)
+    schedule.every().minute.at(':00').do(job)
     while True:
         schedule.run_pending()
         time.sleep(1)
