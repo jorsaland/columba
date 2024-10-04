@@ -93,3 +93,11 @@ swagger_schema = {'components': {'securitySchemes': {'Bearer': {
 # CORS constants
 
 cors_resources = {'/*': {'origins': '*'}}
+
+
+# Environment variables
+
+ENV_SENDER = 'COLUMBA_SENDER'
+ENV_PASSWORD = 'COLUMBA_PASSWORD'
+ENV_SMTP_HOST = 'COLUMBA_SMTP_HOST'
+ENV_SMTP_PORT = 'COLUMBA_SMTP_PORT'

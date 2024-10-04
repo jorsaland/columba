@@ -14,6 +14,8 @@ Please, run both this script and messenger.py
 
 from app.builder import build_app
 from app.repositories.local_sql import configure_database
+from app.utils.env_variables import check_env_vars
+import switches
 
 
 def main():
@@ -22,6 +24,8 @@ def main():
     Runs the events scheduler.
     """
 
+    if switches.CHECK_ENV_VARS:
+        check_env_vars()
     configure_database()
     app = build_app()
     app.run(use_reloader=True)

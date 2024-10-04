@@ -22,3 +22,7 @@ EXPLICIT_ERROR_RESPONSES = True
 ALLOW_SWAGGER = True
 # True  --> Enable Swagger API
 # False --> Disable Swagger API
+
+CHECK_ENV_VARS = True
+# True  --> Check all env variables are present before running
+# False --> Do not check all env variables are present before running

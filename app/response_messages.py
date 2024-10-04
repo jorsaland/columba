@@ -24,6 +24,7 @@ base_field_error_message = "Errors in field '{field_name}':"
 
 # Messages for internal bugs
 
+admin_message_missing_env_vars = 'THE FOLLOWING ENV VARIABLES ARE MISSING: {env_vars}.'
 admin_message_not_jsonifyable_response = 'THE APPLICATION CAN ONLY RESPOND WITH OBJECTS THAT CAN BE CONVERTED TO JSON FORMAT.'
 admin_message_not_pythonifyable_request = "JSON REQUEST BODY CANNOT BE CONVERTED TO TYPE '{type}'."
 admin_message_unmanaged_case = "THE CASE '{case}' MUST BE CATCHED (IF INVALID) OR INCLUDED (IF VALID) BEFORE REACHING THIS POINT."

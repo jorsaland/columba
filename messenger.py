@@ -18,8 +18,11 @@ from datetime import datetime
 
 
 from app.constants import LOGGER_SKETCH_PATH, ACTIVE
+from app.deliver_mails import deliver_mails
 from app.entities import Event
 from app.repositories.local_sql import EventsRepository, configure_database
+from app.utils.env_variables import check_env_vars
+import switches
 
 
 def add_log(log: str):
@@ -72,9 +75,11 @@ def main():
     Runs the events messenger.
     """
 
+    if switches.CHECK_ENV_VARS:
+        check_env_vars()
     add_log('===== STARTING COLUMBA =====')
     configure_database()
-    schedule.every().minute.at(':00').do(job)
+    schedule.every().minute.at(':00').do(deliver_mails)
     while True:
         schedule.run_pending()
         time.sleep(1)
