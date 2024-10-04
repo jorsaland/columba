@@ -8,8 +8,8 @@ from flasgger import swag_from
 
 
 from app.constants import SWAGGER_FILENAME
+from app.request_processing import event_delete_by_id
 from app.response_messages import response_message_successful
-from app.processing import event_delete_by_id
 from app.utils.api_response import APIResponse
 
 

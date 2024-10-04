@@ -11,7 +11,7 @@ from app.constants import SWAGGER_FILENAME
 
 from app.response_messages import response_message_successful
 
-from app.processing import event_create_from_request_dict
+from app.request_processing import event_create_from_request_dict
 
 from app.utils.validate_body_type import validate_body_type
 from app.utils.api_response import APIResponse

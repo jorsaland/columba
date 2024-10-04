@@ -8,8 +8,8 @@ from flasgger import swag_from
 
 
 from app.constants import SWAGGER_FILENAME
+from app.request_processing import events_read_from_query_params
 from app.response_messages import response_message_successful
-from app.processing import events_read_from_query_params
 from app.utils.api_response import APIResponse
 
 
