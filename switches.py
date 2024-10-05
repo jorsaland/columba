@@ -26,3 +26,7 @@ ALLOW_SWAGGER = True
 CHECK_ENV_VARS = True
 # True  --> Check all env variables are present before running
 # False --> Do not check all env variables are present before running
+
+LOG_TO_FILE = True
+# True  --> Send logs to file app.log
+# False --> Send logs to terminal

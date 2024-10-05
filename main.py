@@ -26,7 +26,9 @@ def main():
 
     if switches.CHECK_ENV_VARS:
         check_env_vars()
+
     configure_database()
+
     app = build_app()
     app.run(use_reloader=True)
 

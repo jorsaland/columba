@@ -3,6 +3,7 @@ __pycache__/
 local_data/
 
 *.env
+messenger.log
 local_test.py
 local_database.csv
 local_events.log

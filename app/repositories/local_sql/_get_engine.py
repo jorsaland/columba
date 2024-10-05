@@ -12,4 +12,4 @@ def get_engine():
     Gets the SQL engine.
     """
 
-    return create_engine('sqlite:///local_database.db', echo=True)
+    return create_engine('sqlite:///local_database.db')

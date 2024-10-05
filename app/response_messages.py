@@ -2,6 +2,12 @@
 Defines the response messages.
 """
 
+# Messages for logger
+
+logger_message_starting_messenger = '>>> STARTING COLUMBA MESSENGER'
+logger_message_searching_events = 'Searching events at {time}'
+logger_message_launching_event = '--- Launching event: {event_id}'
+
 # Messages for API responses
 
 response_message_successful = 'Successful {method}.'

@@ -14,59 +14,21 @@ import schedule
 
 
 import time
-from datetime import datetime
+import logging
 
 
-from app.constants import LOGGER_SKETCH_PATH, ACTIVE
 from app.deliver_mails import deliver_mails
-from app.entities import Event
-from app.repositories.local_sql import EventsRepository, configure_database
+
+from app.repositories.local_sql import configure_database
+
+from app.response_messages import logger_message_starting_messenger
 from app.utils.env_variables import check_env_vars
+from app.utils.logger import get_logger
+
 import switches
 
 
-def add_log(log: str):
-
-    """
-    Adds a log to a file.
-    """
-
-    with open(LOGGER_SKETCH_PATH, 'a', newline='\n') as file:
-        file.write(f'{log}\n')
-
-
-def job():
-
-    """
-    Logs pending events.
-    """
-
-    raw_now = datetime.now()
-    now = datetime(
-        year = raw_now.year,
-        month = raw_now.month,
-        day = raw_now.day,
-        hour = raw_now.hour,
-        minute = raw_now.minute,
-    )
-
-    add_log(f'COLUMBA {now}')
-
-    messages: list[str] = []
-
-    filter_event = Event(next_runtime=now)
-    for event in EventsRepository.select_events_by_filter(filter_event):
-
-        if event.state == ACTIVE:
-            messages.append(event.message)
-
-        if event.period.total_seconds() > 0:
-            next_runtime = event.next_runtime + event.period
-            fields_to_update = Event(next_runtime=next_runtime)
-            EventsRepository.update_event(event.event_id, fields_to_update)
-
-    for message in messages:
-        add_log(f'>>> {message}')
+logger = get_logger()
 
 
 def main():
@@ -77,8 +39,11 @@ def main():
 
     if switches.CHECK_ENV_VARS:
         check_env_vars()
-    add_log('===== STARTING COLUMBA =====')
+
+    logging.getLogger('schedule').propagate = False
+    logger.info(logger_message_starting_messenger)
     configure_database()
+
     schedule.every().minute.at(':00').do(deliver_mails)
     while True:
         schedule.run_pending()
