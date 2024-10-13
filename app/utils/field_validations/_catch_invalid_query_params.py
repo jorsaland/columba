@@ -10,7 +10,7 @@ from app.response_messages import response_message_invalid_query_params
 from app.utils.exceptions import ValidationError
 
 
-def catch_invalid_query_params(*, query_params: dict[str, str], valid_names: Iterable[str]):
+def catch_invalid_query_params(*, actual_names: Iterable[str], valid_names: Iterable[str]):
 
     """
     Valida que no haya parámetros de consulta inválidos.
@@ -18,7 +18,7 @@ def catch_invalid_query_params(*, query_params: dict[str, str], valid_names: Ite
 
     invalid_names: list[str] = []
 
-    for query_field in query_params.keys():
+    for query_field in actual_names:
         if query_field not in valid_names:
             invalid_names.append(query_field)
     

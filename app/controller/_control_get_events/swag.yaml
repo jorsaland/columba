@@ -26,6 +26,14 @@ parameters:
     in: query
     schema:
       type: string
+  - name: sender_name
+    in: query
+    schema:
+      type: string
+  - name: subject
+    in: query
+    schema:
+      type: string
 
 
 responses:
@@ -53,9 +61,18 @@ responses:
               period:
                 type: string
                 description: How often the event will be repeated in format "Ad Bh Cm", where A, B, C are days, hours and minutes, respectively.
+              sender_name:
+                type: string
+                description: Name to be displayed as the email sender.
+              subject:
+                type: string
+                description: Email subject.
+              is_html:
+                type: boolean
+                description: Whether the message is in HTML format or not.
               message:
                 type: string
-                description: Message to be sent by the event.
+                description: Message to be sent.
   409:
     description: Wrong request input.
   500:

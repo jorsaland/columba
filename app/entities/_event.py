@@ -9,18 +9,15 @@ from typing import Any
 
 
 from app.constants import (
-    FIELD_NAME_EVENT_ID,
-    FIELD_NAME_RUNTIME,
-    FIELD_NAME_COUNTS,
-    FIELD_NAME_MESSAGE,
-    FIELD_NAME_PERIOD,
-    FIELD_NAME_STATE,
-    IO_FIELD_EVENT_ID,
-    IO_FIELD_MESSAGE,
-    IO_FIELD_PERIOD,
-    IO_FIELD_COUNTS,
-    IO_FIELD_RUNTIME,
-    IO_FIELD_STATE,
+    FIELD_EVENT_ID,
+    FIELD_STATE,
+    FIELD_COUNTS,
+    FIELD_RUNTIME,
+    FIELD_PERIOD,
+    FIELD_SENDER_NAME,
+    FIELD_SUBJECT,
+    FIELD_IS_HTML,
+    FIELD_MESSAGE,
 )
 
 from app.utils.conversions import (
@@ -38,12 +35,17 @@ class Event:
     Represents events.
     """
 
-    event_id: str = None
-    state: str = None
-    runtime: datetime = None
-    counts: int = None
-    message: str = None
-    period: timedelta = None
+    event_id: (str|None) = None
+    state: (str|None) = None
+    counts: (int|None) = None
+
+    runtime: (datetime|None) = None
+    period: (timedelta|None) = None
+
+    sender_name: (str|None) = None
+    subject: (str|None) = None
+    is_html: (bool|None) = None
+    message: (str|None) = None
 
 
     def as_database_dict(self):
@@ -55,17 +57,23 @@ class Event:
         database_dict: dict[str, Any] = {}
 
         if self.event_id is not None:
-            database_dict[FIELD_NAME_EVENT_ID] = self.event_id
+            database_dict[FIELD_EVENT_ID] = self.event_id
         if self.state is not None:
-            database_dict[FIELD_NAME_STATE] = self.state
-        if self.runtime is not None:
-            database_dict[FIELD_NAME_RUNTIME] = convert_datetime_to_str(self.runtime)
+            database_dict[FIELD_STATE] = self.state
         if self.counts is not None:
-            database_dict[IO_FIELD_COUNTS] = self.counts
-        if self.message is not None:
-            database_dict[FIELD_NAME_MESSAGE] = self.message
+            database_dict[FIELD_COUNTS] = self.counts
+        if self.runtime is not None:
+            database_dict[FIELD_RUNTIME] = convert_datetime_to_str(self.runtime)
         if self.period is not None:
-            database_dict[FIELD_NAME_PERIOD] = convert_timedelta_to_int(self.period)
+            database_dict[FIELD_PERIOD] = convert_timedelta_to_int(self.period)
+        if self.sender_name is not None:
+            database_dict[FIELD_SENDER_NAME] = self.sender_name
+        if self.subject is not None:
+            database_dict[FIELD_SUBJECT] = self.subject
+        if self.is_html is not None:
+            database_dict[FIELD_IS_HTML] = self.is_html
+        if self.message is not None:
+            database_dict[FIELD_MESSAGE] = self.message
 
         return database_dict
 
@@ -79,17 +87,23 @@ class Event:
         response_dict: dict[str, Any] = {}
 
         if self.event_id is not None:
-            response_dict[IO_FIELD_EVENT_ID] = self.event_id
+            response_dict[FIELD_EVENT_ID] = self.event_id
         if self.state is not None:
-            response_dict[IO_FIELD_STATE] = self.state
+            response_dict[FIELD_STATE] = self.state
         if self.counts is not None:
-            response_dict[IO_FIELD_COUNTS] = self.counts
+            response_dict[FIELD_COUNTS] = self.counts
         if self.runtime is not None:
-            response_dict[IO_FIELD_RUNTIME] = convert_datetime_to_str(self.runtime)
-        if self.message is not None:
-            response_dict[IO_FIELD_MESSAGE] = self.message
+            response_dict[FIELD_RUNTIME] = convert_datetime_to_str(self.runtime)
         if self.period is not None:
-            response_dict[IO_FIELD_PERIOD] = convert_timedelta_to_str(self.period)
+            response_dict[FIELD_PERIOD] = convert_timedelta_to_str(self.period)
+        if self.sender_name is not None:
+            response_dict[FIELD_SENDER_NAME] = self.sender_name
+        if self.subject is not None:
+            response_dict[FIELD_SUBJECT] = self.subject
+        if self.is_html is not None:
+            response_dict[FIELD_IS_HTML] = self.is_html
+        if self.message is not None:
+            response_dict[FIELD_MESSAGE] = self.message
 
         return response_dict
 
@@ -103,17 +117,23 @@ class Event:
 
         event = Event()
 
-        if (value := database_dict.get(FIELD_NAME_EVENT_ID)) is not None:
+        if (value := database_dict.get(FIELD_EVENT_ID)) is not None:
             event.event_id = value
-        if (value := database_dict.get(FIELD_NAME_STATE)) is not None:
+        if (value := database_dict.get(FIELD_STATE)) is not None:
             event.state = value
-        if (value := database_dict.get(FIELD_NAME_COUNTS)) is not None:
+        if (value := database_dict.get(FIELD_COUNTS)) is not None:
             event.counts = value
-        if (value := database_dict.get(FIELD_NAME_RUNTIME)) is not None:
+        if (value := database_dict.get(FIELD_RUNTIME)) is not None:
             event.runtime = datetime.fromisoformat(value)
-        if (value := database_dict.get(FIELD_NAME_MESSAGE)) is not None:
-            event.message = value
-        if (value := database_dict.get(FIELD_NAME_PERIOD)) is not None:
+        if (value := database_dict.get(FIELD_PERIOD)) is not None:
             event.period = timedelta(minutes=value)
+        if (value := database_dict.get(FIELD_SENDER_NAME)) is not None:
+            event.sender_name = value
+        if (value := database_dict.get(FIELD_SUBJECT)) is not None:
+            event.subject = value
+        if (value := database_dict.get(FIELD_IS_HTML)) is not None:
+            event.is_html = value
+        if (value := database_dict.get(FIELD_MESSAGE)) is not None:
+            event.message = value
 
         return event

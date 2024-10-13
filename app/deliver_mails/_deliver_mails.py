@@ -52,4 +52,9 @@ def deliver_mails():
 
     for event in events_to_launch:
         logger.info(logger_message_launching_event.format(event_id=event.event_id))
-        send_mail(event.message)
+        send_mail(
+            sender_name = event.sender_name,
+            subject = event.subject,
+            is_html = event.is_html,
+            message = event.message,
+        )

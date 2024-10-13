@@ -8,10 +8,13 @@ from typing import Any
 
 
 from app.constants import (
-    IO_FIELD_MESSAGE,
-    IO_FIELD_PERIOD,
-    IO_FIELD_RUNTIME,
-    IO_FIELD_STATE,
+    FIELD_MESSAGE,
+    FIELD_PERIOD,
+    FIELD_RUNTIME,
+    FIELD_SENDER_NAME,
+    FIELD_IS_HTML,
+    FIELD_SUBJECT,
+    FIELD_STATE,
     ACTIVE,
     PAUSED,
     valid_states,
@@ -38,43 +41,9 @@ def build_creation_event_entity(request_dict: dict[str, Any]):
     event_to_create = Event()
     error_messages: list[str] = []
 
-    # Message
-
-    if (field_value := request_dict.get(IO_FIELD_MESSAGE)) is not None:
-        try:
-            message = catch_invalid_value_type(
-                field_value = field_value,
-                valid_type = str,
-            )
-        except ValidationError as exception:
-            error_message_base = base_field_error_message.format(field_name=IO_FIELD_MESSAGE)
-            _, error_message_body = exception.args
-            error_message = error_message_base + ' ' + error_message_body
-            error_messages.append(error_message)
-        else:
-            event_to_create.message = message
-
-    # Next runtime
-
-    if (field_value := request_dict.get(IO_FIELD_RUNTIME)) is not None:
-        try:
-            input_runtime = catch_invalid_value_type(
-                field_value = field_value,
-                valid_type = str,
-            )
-            runtime = convert_str_to_datetime(input_runtime)
-        except ValidationError as exception:
-            error_message_base = base_field_error_message.format(field_name=IO_FIELD_RUNTIME)
-            _, error_message_body = exception.args
-            error_message = error_message_base + ' ' + error_message_body
-            error_messages.append(error_message)
-        else:
-            event_to_create.runtime = runtime
-
     # State
 
-    ### validations
-    if (field_value := request_dict.get(IO_FIELD_STATE)) is not None:
+    if (field_value := request_dict.get(FIELD_STATE)) is not None:
         try:
             state = catch_invalid_value_type(
                 field_value = field_value,
@@ -85,24 +54,39 @@ def build_creation_event_entity(request_dict: dict[str, Any]):
                 categorical_values = valid_states,
             )
         except ValidationError as exception:
-            error_message_base = base_field_error_message.format(field_name=IO_FIELD_STATE)
+            error_message_base = base_field_error_message.format(field_name=FIELD_STATE)
             _, error_message_body = exception.args
             error_message = error_message_base + ' ' + error_message_body
             error_messages.append(error_message)
         else:
             event_to_create.state = state
     
-    ### set default state
     else:
         if switches.DEFAULT_ACTIVE:
             event_to_create.state = ACTIVE
         else:
             event_to_create.state = PAUSED
 
+    # Next runtime
+
+    if (field_value := request_dict.get(FIELD_RUNTIME)) is not None:
+        try:
+            input_runtime = catch_invalid_value_type(
+                field_value = field_value,
+                valid_type = str,
+            )
+            runtime = convert_str_to_datetime(input_runtime)
+        except ValidationError as exception:
+            error_message_base = base_field_error_message.format(field_name=FIELD_RUNTIME)
+            _, error_message_body = exception.args
+            error_message = error_message_base + ' ' + error_message_body
+            error_messages.append(error_message)
+        else:
+            event_to_create.runtime = runtime
+
     # Period
 
-    ### validations
-    if (field_value := request_dict.get(IO_FIELD_PERIOD)) is not None:
+    if (field_value := request_dict.get(FIELD_PERIOD)) is not None:
         try:
             input_period = catch_invalid_value_type(
                 field_value = field_value,
@@ -110,16 +94,82 @@ def build_creation_event_entity(request_dict: dict[str, Any]):
             )
             period = convert_str_to_timedelta(input_period)
         except ValidationError as exception:
-            error_message_base = base_field_error_message.format(field_name=IO_FIELD_PERIOD)
+            error_message_base = base_field_error_message.format(field_name=FIELD_PERIOD)
             _, error_message_body = exception.args
             error_message = error_message_base + ' ' + error_message_body
             error_messages.append(error_message)
         else:
             event_to_create.period = period
 
-    ### set default period
     else:
         event_to_create.period = timedelta(0)
+
+    # Sender name
+
+    if (field_value := request_dict.get(FIELD_SENDER_NAME)) is not None:
+        try:
+            sender_name = catch_invalid_value_type(
+                field_value = field_value,
+                valid_type = str,
+            )
+        except ValidationError as exception:
+            error_message_base = base_field_error_message.format(field_name=FIELD_SENDER_NAME)
+            _, error_message_body = exception.args
+            error_message = error_message_base + ' ' + error_message_body
+            error_messages.append(error_message)
+        else:
+            event_to_create.sender_name = sender_name
+
+    # Subject
+
+    if (field_value := request_dict.get(FIELD_SUBJECT)) is not None:
+        try:
+            subject = catch_invalid_value_type(
+                field_value = field_value,
+                valid_type = str,
+            )
+        except ValidationError as exception:
+            error_message_base = base_field_error_message.format(field_name=FIELD_SUBJECT)
+            _, error_message_body = exception.args
+            error_message = error_message_base + ' ' + error_message_body
+            error_messages.append(error_message)
+        else:
+            event_to_create.subject = subject
+
+    # Is HTML
+
+    if (field_value := request_dict.get(FIELD_IS_HTML)) is not None:
+        try:
+            is_html = catch_invalid_value_type(
+                field_value = field_value,
+                valid_type = bool,
+            )
+        except ValidationError as exception:
+            error_message_base = base_field_error_message.format(field_name=FIELD_IS_HTML)
+            _, error_message_body = exception.args
+            error_message = error_message_base + ' ' + error_message_body
+            error_messages.append(error_message)
+        else:
+            event_to_create.is_html = is_html
+    
+    else:
+        event_to_create.is_html = False
+
+    # Message
+
+    if (field_value := request_dict.get(FIELD_MESSAGE)) is not None:
+        try:
+            message = catch_invalid_value_type(
+                field_value = field_value,
+                valid_type = str,
+            )
+        except ValidationError as exception:
+            error_message_base = base_field_error_message.format(field_name=FIELD_MESSAGE)
+            _, error_message_body = exception.args
+            error_message = error_message_base + ' ' + error_message_body
+            error_messages.append(error_message)
+        else:
+            event_to_create.message = message
 
     # Concatenate error messages
 

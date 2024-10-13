@@ -18,48 +18,54 @@ LOGGER_SKETCH_PATH = 'local_events.log'
 TABLE_NAME_EVENTS = 'Events'
 
 ordered_fields = [
-    FIELD_NAME_EVENT_ID := 'event_id',
-    FIELD_NAME_STATE := 'state',
-    FIELD_NAME_COUNTS := 'counts',
-    FIELD_NAME_RUNTIME := 'runtime',
-    FIELD_NAME_MESSAGE := 'message',
-    FIELD_NAME_PERIOD := 'period',
+
+    FIELD_EVENT_ID := 'event_id',
+    FIELD_STATE := 'state',
+    FIELD_COUNTS := 'counts',
+
+    FIELD_RUNTIME := 'runtime',
+    FIELD_PERIOD := 'period',
+
+    FIELD_SENDER_NAME := 'sender_name',
+    FIELD_SUBJECT := 'subject',
+    FIELD_IS_HTML := 'is_html',
+    FIELD_MESSAGE := 'message',
 ]
 
 
 # Request constants
 
-IO_FIELD_EVENT_ID = 'event_id'
-IO_FIELD_MESSAGE = 'message'
-IO_FIELD_STATE = 'state'
-IO_FIELD_PERIOD = 'period'
-IO_FIELD_RUNTIME = 'runtime'
-IO_FIELD_COUNTS = 'counts'
-
 valid_query_params = [
-    IO_FIELD_EVENT_ID,
-    IO_FIELD_STATE,
-    IO_FIELD_RUNTIME,
-    IO_FIELD_PERIOD,
+    FIELD_EVENT_ID,
+    FIELD_STATE,
+    FIELD_RUNTIME,
+    FIELD_PERIOD,
+    FIELD_SENDER_NAME,
+    FIELD_SUBJECT,
 ]
 
 creation_request_valid_fields = [
-    IO_FIELD_MESSAGE,
-    IO_FIELD_STATE,
-    IO_FIELD_PERIOD,
-    IO_FIELD_RUNTIME,
+    FIELD_STATE,
+    FIELD_RUNTIME,
+    FIELD_PERIOD,
+    FIELD_SENDER_NAME,
+    FIELD_SUBJECT,
+    FIELD_IS_HTML,
+    FIELD_MESSAGE,
 ]
 
 creation_request_mandatory_fields = [
-    IO_FIELD_MESSAGE,
-    IO_FIELD_RUNTIME,
+    FIELD_RUNTIME,
 ]
 
 update_request_valid_fields = [
-    IO_FIELD_MESSAGE,
-    IO_FIELD_STATE,
-    IO_FIELD_PERIOD,
-    IO_FIELD_RUNTIME,
+    FIELD_STATE,
+    FIELD_RUNTIME,
+    FIELD_PERIOD,
+    FIELD_SENDER_NAME,
+    FIELD_SUBJECT,
+    FIELD_IS_HTML,
+    FIELD_MESSAGE,
 ]
 
 valid_states = [

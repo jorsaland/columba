@@ -1,14 +1,18 @@
-Update an event from a request body.
+Update an event from an event ID and a request body.
 ---
 
 description: |
   Mandatory parameters:
   - runtime
-  - message
 
   Optional parameters:
   - state
   - period
+  - runtime
+  - sender_name
+  - subject
+  - is_html
+  - message
 
 tags:
 - Events
@@ -35,9 +39,18 @@ requestBody:
           period:
             type: string
             description: How often the event will be repeated in format "Ad Bh Cm", where A, B, C are days, hours and minutes, respectively.
+          sender_name:
+            type: string
+            description: Name to be displayed as the email sender.
+          subject:
+            type: string
+            description: Email subject.
+          is_html:
+            type: boolean
+            description: Whether the message is in HTML format or not.
           message:
             type: string
-            description: Message to be sent by the event.
+            description: Message to be sent.
 
 responses:
   200:
@@ -62,11 +75,20 @@ responses:
             period:
               type: string
               description: How often the event will be repeated in format "Ad Bh Cm", where A, B, C are days, hours and minutes, respectively.
+            sender_name:
+              type: string
+              description: Name to be displayed as the email sender.
+            subject:
+              type: string
+              description: Email subject.
+            is_html:
+              type: boolean
+              description: Whether the message is in HTML format or not.
             message:
               type: string
-              description: Message to be sent by the event.
+              description: Message to be sent.
   404:
-    description: Event does not exist.
+    description: The event does not exist.
   409:
     description: Wrong request input.
   500:

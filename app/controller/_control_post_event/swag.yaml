@@ -4,11 +4,15 @@ Create an event from a request body.
 description: |
   Mandatory parameters:
   - runtime
-  - message
 
   Optional parameters:
   - state
   - period
+  - runtime
+  - sender_name
+  - subject
+  - is_html
+  - message
 
 tags:
 - Events
@@ -19,18 +23,27 @@ requestBody:
       schema:
         type: object
         properties:
+          state:
+            type: string
+            description: State of the event ("active" or "paused") (default "active").
           runtime:
             type: string
             description: Time when the event will be run.
-          message:
-            type: string
-            description: Message to be sent by the event.
-          state:
-            type: string
-            description: State of the event ("active" or "paused").
           period:
             type: string
             description: How often the event will be repeated in format "Ad Bh Cm", where A, B, C are days, hours and minutes, respectively.
+          sender_name:
+            type: string
+            description: Name to be displayed as the email sender.
+          subject:
+            type: string
+            description: Email subject.
+          is_html:
+            type: boolean
+            description: Whether the message is in HTML format or not (default False).
+          message:
+            type: string
+            description: Message to be sent.
 
 responses:
   200:
@@ -55,9 +68,18 @@ responses:
             period:
               type: string
               description: How often the event will be repeated in format "Ad Bh Cm", where A, B, C are days, hours and minutes, respectively.
+            sender_name:
+              type: string
+              description: Name to be displayed as the email sender.
+            subject:
+              type: string
+              description: Email subject.
+            is_html:
+              type: boolean
+              description: Whether the message is in HTML format or not.
             message:
               type: string
-              description: Message to be sent by the event.
+              description: Message to be sent.
   409:
     description: Wrong request input.
   500:
