@@ -35,19 +35,20 @@ def deliver_mails():
     )
     logger.debug(logger_message_searching_events.format(time=now))
 
-    filter_event = Event(next_runtime=now)
+    filter_event = Event(runtime=now)
     found_events = EventsRepository.select_events_by_filter(filter_event)
 
     events_to_launch: list[Event] = []
     for event in found_events:
 
+        fields_to_update = Event()
+
+        fields_to_update.runtime = event.runtime + event.period
         if event.state == ACTIVE:
             events_to_launch.append(event)
+            fields_to_update.counts = event.counts + 1
 
-        if event.period.total_seconds() > 0:
-            next_runtime = event.next_runtime + event.period
-            fields_to_update = Event(next_runtime=next_runtime)
-            EventsRepository.update_event(event.event_id, fields_to_update)
+        EventsRepository.update_event(event.event_id, fields_to_update)
 
     for event in events_to_launch:
         logger.info(logger_message_launching_event.format(event_id=event.event_id))

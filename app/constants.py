@@ -20,8 +20,8 @@ TABLE_NAME_EVENTS = 'Events'
 ordered_fields = [
     FIELD_NAME_EVENT_ID := 'event_id',
     FIELD_NAME_STATE := 'state',
-    FIELD_NAME_FIRST_RUNTIME := 'first_runtime',
-    FIELD_NAME_NEXT_RUNTIME := 'next_runtime',
+    FIELD_NAME_COUNTS := 'counts',
+    FIELD_NAME_RUNTIME := 'runtime',
     FIELD_NAME_MESSAGE := 'message',
     FIELD_NAME_PERIOD := 'period',
 ]
@@ -34,14 +34,12 @@ IO_FIELD_MESSAGE = 'message'
 IO_FIELD_STATE = 'state'
 IO_FIELD_PERIOD = 'period'
 IO_FIELD_RUNTIME = 'runtime'
-IO_FIELD_FIRST_RUNTIME = 'first_runtime'
-IO_FIELD_NEXT_RUNTIME = 'next_runtime'
+IO_FIELD_COUNTS = 'counts'
 
 valid_query_params = [
     IO_FIELD_EVENT_ID,
     IO_FIELD_STATE,
-    IO_FIELD_FIRST_RUNTIME,
-    IO_FIELD_NEXT_RUNTIME,
+    IO_FIELD_RUNTIME,
     IO_FIELD_PERIOD,
 ]
 
@@ -61,7 +59,7 @@ update_request_valid_fields = [
     IO_FIELD_MESSAGE,
     IO_FIELD_STATE,
     IO_FIELD_PERIOD,
-    IO_FIELD_NEXT_RUNTIME,
+    IO_FIELD_RUNTIME,
 ]
 
 valid_states = [

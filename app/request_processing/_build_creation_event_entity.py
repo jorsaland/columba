@@ -54,7 +54,7 @@ def build_creation_event_entity(request_dict: dict[str, Any]):
         else:
             event_to_create.message = message
 
-    # First and next runtimes
+    # Next runtime
 
     if (field_value := request_dict.get(IO_FIELD_RUNTIME)) is not None:
         try:
@@ -69,8 +69,7 @@ def build_creation_event_entity(request_dict: dict[str, Any]):
             error_message = error_message_base + ' ' + error_message_body
             error_messages.append(error_message)
         else:
-            event_to_create.first_runtime = runtime
-            event_to_create.next_runtime = runtime
+            event_to_create.runtime = runtime
 
     # State
 
@@ -127,7 +126,9 @@ def build_creation_event_entity(request_dict: dict[str, Any]):
     if error_messages:
         raise ValidationError(code=409, message=' '.join(error_messages))
 
-    # Add event ID and return
+    # Add event ID and counts, and return
 
     event_to_create.event_id = generate_id()
+    event_to_create.counts = 0
+
     return event_to_create

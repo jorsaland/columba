@@ -6,8 +6,7 @@ Defines the function that builds a filter Event entity from a query parameters d
 from app.constants import (
     IO_FIELD_EVENT_ID,
     IO_FIELD_STATE,
-    IO_FIELD_FIRST_RUNTIME,
-    IO_FIELD_NEXT_RUNTIME,
+    IO_FIELD_RUNTIME,
     IO_FIELD_PERIOD,
     valid_states,
 )
@@ -53,31 +52,18 @@ def build_filter_event_entity(query_params: dict[str, str]):
         else:
             filter_event.state = state
 
-    # First runtime
-
-    if (input_first_runtime := query_params.get(IO_FIELD_FIRST_RUNTIME)) is not None:
-        try:
-            first_runtime = convert_str_to_datetime(input_first_runtime)
-        except ValidationError as exception:
-            error_message_base = base_field_error_message.format(field_name=IO_FIELD_FIRST_RUNTIME)
-            _, error_message_body = exception.args
-            error_message = error_message_base + ' ' + error_message_body
-            error_messages.append(error_message)
-        else:
-            filter_event.first_runtime = first_runtime
-
     # Next runtime
 
-    if (input_next_runtime := query_params.get(IO_FIELD_NEXT_RUNTIME)) is not None:
+    if (input_runtime := query_params.get(IO_FIELD_RUNTIME)) is not None:
         try:
-            next_runtime = convert_str_to_datetime(input_next_runtime)
+            runtime = convert_str_to_datetime(input_runtime)
         except ValidationError as exception:
-            error_message_base = base_field_error_message.format(field_name=IO_FIELD_NEXT_RUNTIME)
+            error_message_base = base_field_error_message.format(field_name=IO_FIELD_RUNTIME)
             _, error_message_body = exception.args
             error_message = error_message_base + ' ' + error_message_body
             error_messages.append(error_message)
         else:
-            filter_event.next_runtime = next_runtime
+            filter_event.runtime = runtime
 
     # Period
 
@@ -85,7 +71,7 @@ def build_filter_event_entity(query_params: dict[str, str]):
         try:
             period = convert_str_to_timedelta(input_period)
         except ValidationError as exception:
-            error_message_base = base_field_error_message.format(field_name=IO_FIELD_NEXT_RUNTIME)
+            error_message_base = base_field_error_message.format(field_name=IO_FIELD_RUNTIME)
             _, error_message_body = exception.args
             error_message = error_message_base + ' ' + error_message_body
             error_messages.append(error_message)

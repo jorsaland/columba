@@ -9,7 +9,7 @@ from typing import Any
 from app.constants import (
     IO_FIELD_MESSAGE,
     IO_FIELD_PERIOD,
-    IO_FIELD_NEXT_RUNTIME,
+    IO_FIELD_RUNTIME,
     IO_FIELD_STATE,
     valid_states,
 )
@@ -50,7 +50,7 @@ def build_update_event_entity(request_dict: dict[str, Any]):
 
     # Next runtimes
 
-    if (field_value := request_dict.get(IO_FIELD_NEXT_RUNTIME)) is not None:
+    if (field_value := request_dict.get(IO_FIELD_RUNTIME)) is not None:
         try:
             input_runtime = catch_invalid_value_type(
                 field_value = field_value,
@@ -58,12 +58,12 @@ def build_update_event_entity(request_dict: dict[str, Any]):
             )
             runtime = convert_str_to_datetime(input_runtime)
         except ValidationError as exception:
-            error_message_base = base_field_error_message.format(field_name=IO_FIELD_NEXT_RUNTIME)
+            error_message_base = base_field_error_message.format(field_name=IO_FIELD_RUNTIME)
             _, error_message_body = exception.args
             error_message = error_message_base + ' ' + error_message_body
             error_messages.append(error_message)
         else:
-            update_event.next_runtime = runtime
+            update_event.runtime = runtime
 
     # State
 

@@ -10,16 +10,16 @@ from typing import Any
 
 from app.constants import (
     FIELD_NAME_EVENT_ID,
-    FIELD_NAME_NEXT_RUNTIME,
-    FIELD_NAME_FIRST_RUNTIME,
+    FIELD_NAME_RUNTIME,
+    FIELD_NAME_COUNTS,
     FIELD_NAME_MESSAGE,
     FIELD_NAME_PERIOD,
     FIELD_NAME_STATE,
     IO_FIELD_EVENT_ID,
     IO_FIELD_MESSAGE,
     IO_FIELD_PERIOD,
-    IO_FIELD_FIRST_RUNTIME,
-    IO_FIELD_NEXT_RUNTIME,
+    IO_FIELD_COUNTS,
+    IO_FIELD_RUNTIME,
     IO_FIELD_STATE,
 )
 
@@ -40,8 +40,8 @@ class Event:
 
     event_id: str = None
     state: str = None
-    first_runtime: datetime = None
-    next_runtime: datetime = None
+    runtime: datetime = None
+    counts: int = None
     message: str = None
     period: timedelta = None
 
@@ -58,10 +58,10 @@ class Event:
             database_dict[FIELD_NAME_EVENT_ID] = self.event_id
         if self.state is not None:
             database_dict[FIELD_NAME_STATE] = self.state
-        if self.first_runtime is not None:
-            database_dict[FIELD_NAME_FIRST_RUNTIME] = convert_datetime_to_str(self.first_runtime)
-        if self.next_runtime is not None:
-            database_dict[FIELD_NAME_NEXT_RUNTIME] = convert_datetime_to_str(self.next_runtime)
+        if self.runtime is not None:
+            database_dict[FIELD_NAME_RUNTIME] = convert_datetime_to_str(self.runtime)
+        if self.counts is not None:
+            database_dict[IO_FIELD_COUNTS] = self.counts
         if self.message is not None:
             database_dict[FIELD_NAME_MESSAGE] = self.message
         if self.period is not None:
@@ -82,10 +82,10 @@ class Event:
             response_dict[IO_FIELD_EVENT_ID] = self.event_id
         if self.state is not None:
             response_dict[IO_FIELD_STATE] = self.state
-        if self.first_runtime is not None:
-            response_dict[IO_FIELD_FIRST_RUNTIME] = convert_datetime_to_str(self.first_runtime)
-        if self.next_runtime is not None:
-            response_dict[IO_FIELD_NEXT_RUNTIME] = convert_datetime_to_str(self.next_runtime)
+        if self.counts is not None:
+            response_dict[IO_FIELD_COUNTS] = self.counts
+        if self.runtime is not None:
+            response_dict[IO_FIELD_RUNTIME] = convert_datetime_to_str(self.runtime)
         if self.message is not None:
             response_dict[IO_FIELD_MESSAGE] = self.message
         if self.period is not None:
@@ -107,10 +107,10 @@ class Event:
             event.event_id = value
         if (value := database_dict.get(FIELD_NAME_STATE)) is not None:
             event.state = value
-        if (value := database_dict.get(FIELD_NAME_FIRST_RUNTIME)) is not None:
-            event.first_runtime = datetime.fromisoformat(value)
-        if (value := database_dict.get(FIELD_NAME_NEXT_RUNTIME)) is not None:
-            event.next_runtime = datetime.fromisoformat(value)
+        if (value := database_dict.get(FIELD_NAME_COUNTS)) is not None:
+            event.counts = value
+        if (value := database_dict.get(FIELD_NAME_RUNTIME)) is not None:
+            event.runtime = datetime.fromisoformat(value)
         if (value := database_dict.get(FIELD_NAME_MESSAGE)) is not None:
             event.message = value
         if (value := database_dict.get(FIELD_NAME_PERIOD)) is not None:

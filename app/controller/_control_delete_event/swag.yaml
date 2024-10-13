@@ -32,10 +32,10 @@ responses:
               state:
                 type: string
                 description: State of the event ("active" or "paused").
-              first_runtime:
+              counts:
                 type: string
-                description: First time when the event was or will be run.
-              next_runtime:
+                description: Number of times the event has been run.
+              runtime:
                 type: string
                 description: Next time when the event will be run.
               period:
