@@ -1,5 +1,5 @@
 """
-Columba 0.4
+Columba 0.5
 https://github.com/jorsaland/columba
 
 This is where Columba send the messages.

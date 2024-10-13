@@ -1,10 +1,10 @@
 """
-Columba 0.4
+Columba 0.5
 https://github.com/jorsaland/columba
 
 A back-end Web app capable of scheduling emails.
 
-In version 0.4, an email delivery system is implemented.
+In version 0.5, emails include subject and HTML format.
 
 ----------------------------------------------------------------------
 
