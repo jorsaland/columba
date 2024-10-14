@@ -6,7 +6,7 @@ from typing import Any
 
 from app.constants import ordered_fields
 from app.entities import Event
-from app.response_messages import response_message_not_found
+from app.internal_messages import response_message_not_found
 from app.utils.exceptions import ValidationError
 
 

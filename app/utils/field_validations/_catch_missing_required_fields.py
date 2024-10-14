@@ -7,7 +7,7 @@ from collections.abc import Iterable
 from typing import Any
 
 
-from app.response_messages import response_message_missing_required_fields
+from app.internal_messages import response_message_missing_required_fields
 from app.utils.exceptions import ValidationError
 
 

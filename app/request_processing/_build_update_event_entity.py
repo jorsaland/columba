@@ -19,7 +19,7 @@ from app.constants import (
 
 from app.entities import Event
 
-from app.response_messages import base_field_error_message
+from app.internal_messages import base_field_error_message
 
 from app.utils.conversions import convert_str_to_datetime, convert_str_to_timedelta
 from app.utils.exceptions import ValidationError

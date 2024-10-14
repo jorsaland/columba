@@ -6,7 +6,7 @@ Define la función que valida que no haya parámetros de consulta inválidos.
 from collections.abc import Iterable
 
 
-from app.response_messages import response_message_invalid_query_params
+from app.internal_messages import response_message_invalid_query_params
 from app.utils.exceptions import ValidationError
 
 

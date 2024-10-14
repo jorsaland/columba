@@ -11,7 +11,7 @@ from functools import wraps
 from traceback import format_exc
 
 
-from app.response_messages import response_message_soft_unexpected_error, response_message_hard_unexpected_error
+from app.internal_messages import response_message_soft_unexpected_error, response_message_hard_unexpected_error
 
 from app.utils.exceptions import ValidationError
 from app.utils.api_response import APIResponse

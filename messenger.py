@@ -21,7 +21,7 @@ from app.deliver_mails import deliver_mails
 
 from app.repositories.local_sql import configure_database
 
-from app.response_messages import logger_message_starting_messenger
+from app.internal_messages import logger_message_starting_messenger
 from app.utils.env_variables import check_env_vars
 from app.utils.logger import get_logger
 

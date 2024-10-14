@@ -10,7 +10,7 @@ import json
 from typing import Any
 
 
-from app.response_messages import admin_message_not_jsonifyable_response
+from app.internal_messages import admin_message_not_jsonifyable_response
 from app.utils.exceptions import DevelopmentError
 
 

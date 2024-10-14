@@ -8,7 +8,7 @@ from datetime import datetime
 
 from app.entities import Event
 from app.constants import ACTIVE
-from app.response_messages import logger_message_launching_event, logger_message_searching_events
+from app.internal_messages import logger_message_launching_event, logger_message_searching_events
 from app.repositories.local_sql import EventsRepository
 from app.utils.logger import get_logger
 

@@ -9,7 +9,7 @@ from flasgger import swag_from
 
 from app.constants import SWAGGER_FILENAME
 
-from app.response_messages import response_message_successful
+from app.internal_messages import response_message_successful
 
 from app.request_processing import event_create_from_request_dict
 

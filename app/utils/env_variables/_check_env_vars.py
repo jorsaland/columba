@@ -3,7 +3,7 @@ Defines the function that validates no env variables are missing.
 """
 
 
-from app.response_messages import admin_message_missing_env_vars
+from app.internal_messages import admin_message_missing_env_vars
 from app.utils.exceptions import DevelopmentError
 
 

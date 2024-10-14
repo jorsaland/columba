@@ -3,7 +3,7 @@ Defines the error that catches invalid requests.
 """
 
 
-from app.response_messages import response_message_undefined_error
+from app.internal_messages import response_message_undefined_error
 
 
 class ValidationError(Exception):

@@ -6,7 +6,7 @@ Defines the function that catches invalid types in an incoming request field.
 from typing import TypeVar
 
 
-from app.response_messages import response_message_invalid_field_type
+from app.internal_messages import response_message_invalid_field_type
 from app.utils.exceptions import ValidationError
 
 

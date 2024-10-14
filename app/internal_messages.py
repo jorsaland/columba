@@ -1,5 +1,5 @@
 """
-Defines the response messages.
+Defines the messages used within the app context.
 """
 
 # Messages for logger

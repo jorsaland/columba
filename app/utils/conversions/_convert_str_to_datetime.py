@@ -8,7 +8,7 @@ import re
 
 
 from app.utils.exceptions import ValidationError
-from app.response_messages import response_message_invalid_runtime_format
+from app.internal_messages import response_message_invalid_runtime_format
 
 
 def convert_str_to_datetime(value: str):

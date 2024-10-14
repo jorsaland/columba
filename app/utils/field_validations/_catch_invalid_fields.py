@@ -6,7 +6,7 @@ Defines the function that catches any invalid field names in a request.
 from collections.abc import Iterable
 
 
-from app.response_messages import response_message_invalid_field_names
+from app.internal_messages import response_message_invalid_field_names
 from app.utils.exceptions import ValidationError
 
 

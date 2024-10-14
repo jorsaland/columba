@@ -11,7 +11,7 @@ from typing import TypeVar
 
 
 from app.constants import json_valid_types
-from app.response_messages import (
+from app.internal_messages import (
     admin_message_not_pythonifyable_request,
     response_message_bad_request_body,
     response_message_no_request_body,

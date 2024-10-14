@@ -6,7 +6,7 @@ Define la función que valida que un campo categórico tenga un valor correcto.
 from collections.abc import Iterable
 
 
-from app.response_messages import response_message_invalid_categorical_value
+from app.internal_messages import response_message_invalid_categorical_value
 from app.utils.exceptions import ValidationError
 
 
