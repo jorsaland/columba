@@ -13,6 +13,9 @@ from app.constants import (
     FIELD_EVENT_ID,
     FIELD_MESSAGE,
     FIELD_SENDER_NAME,
+    FIELD_TO,
+    FIELD_CC,
+    FIELD_BCC,
     FIELD_IS_HTML,
     FIELD_SUBJECT,
     FIELD_PERIOD,
@@ -36,6 +39,10 @@ def get_events_table(metadata: MetaData):
 
         Column(FIELD_RUNTIME, VARCHAR),
         Column(FIELD_PERIOD, INTEGER),
+
+        Column(FIELD_TO, TEXT),
+        Column(FIELD_CC, TEXT),
+        Column(FIELD_BCC, TEXT),
 
         Column(FIELD_SENDER_NAME, TEXT),
         Column(FIELD_SUBJECT, TEXT),

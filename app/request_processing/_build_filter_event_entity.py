@@ -10,6 +10,9 @@ from app.constants import (
     FIELD_PERIOD,
     FIELD_SENDER_NAME,
     FIELD_SUBJECT,
+    FIELD_TO,
+    FIELD_CC,
+    FIELD_BCC,
     valid_states,
 )
 
@@ -79,6 +82,21 @@ def build_filter_event_entity(query_params: dict[str, str]):
             error_messages.append(error_message)
         else:
             filter_event.period = period
+
+    # To
+
+    if (to := query_params.get(FIELD_TO)) is not None:
+        filter_event.to = [to]
+
+    # Carbon copy
+
+    if (cc := query_params.get(FIELD_CC)) is not None:
+        filter_event.cc = [cc]
+
+    # Blind carbon copy
+
+    if (bcc := query_params.get(FIELD_BCC)) is not None:
+        filter_event.bcc = [bcc]
 
     # Sender name
 

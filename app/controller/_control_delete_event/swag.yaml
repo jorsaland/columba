@@ -36,6 +36,21 @@ responses:
               period:
                 type: string
                 description: How often the event will be repeated in format "Ad Bh Cm", where A, B, C are days, hours and minutes, respectively.
+              to:
+                type: array
+                description: Main recipients of the email 
+                items:
+                  type: string
+              cc:
+                type: array
+                description: Carbon copy recipients of the email 
+                items:
+                  type: string
+              bcc:
+                type: array
+                description: Blind carbon copy recipients of the email 
+                items:
+                  type: string
               sender_name:
                 type: string
                 description: Name to be displayed as the email sender.

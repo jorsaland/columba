@@ -11,6 +11,9 @@ from app.constants import (
     FIELD_MESSAGE,
     FIELD_PERIOD,
     FIELD_RUNTIME,
+    FIELD_TO,
+    FIELD_CC,
+    FIELD_BCC,
     FIELD_SENDER_NAME,
     FIELD_IS_HTML,
     FIELD_SUBJECT,
@@ -26,7 +29,12 @@ from app.internal_messages import base_field_error_message
 
 from app.utils.conversions import convert_str_to_datetime, convert_str_to_timedelta
 from app.utils.exceptions import ValidationError
-from app.utils.field_validations import catch_invalid_value_type, catch_invalid_categorical_value
+from app.utils.field_validations import (
+    catch_invalid_value_type,
+    catch_invalid_elements_type,
+    catch_invalid_categorical_value,
+    catch_invalid_email_addresses,
+)
 from app.utils.generate_id import generate_id
 
 import switches
@@ -103,6 +111,69 @@ def build_creation_event_entity(request_dict: dict[str, Any]):
 
     else:
         event_to_create.period = timedelta(0)
+
+    # To
+
+    if (field_value := request_dict.get(FIELD_TO)) is not None:
+        try:
+            to = catch_invalid_value_type(
+                field_value = field_value,
+                valid_type = list,
+            )
+            to = catch_invalid_elements_type(
+                elements = to,
+                valid_type = str,
+            )
+            catch_invalid_email_addresses(to)
+        except ValidationError as exception:
+            error_message_base = base_field_error_message.format(field_name=FIELD_TO)
+            _, error_message_body = exception.args
+            error_message = error_message_base + ' ' + error_message_body
+            error_messages.append(error_message)
+        else:
+            event_to_create.to = to
+
+    # Carbon copy
+
+    if (field_value := request_dict.get(FIELD_CC)) is not None:
+        try:
+            cc = catch_invalid_value_type(
+                field_value = field_value,
+                valid_type = list,
+            )
+            cc = catch_invalid_elements_type(
+                elements = cc,
+                valid_type = str,
+            )
+            catch_invalid_email_addresses(cc)
+        except ValidationError as exception:
+            error_message_base = base_field_error_message.format(field_name=FIELD_CC)
+            _, error_message_body = exception.args
+            error_message = error_message_base + ' ' + error_message_body
+            error_messages.append(error_message)
+        else:
+            event_to_create.cc = cc
+
+    # Blind carbon copy
+
+    if (field_value := request_dict.get(FIELD_BCC)) is not None:
+        try:
+            bcc = catch_invalid_value_type(
+                field_value = field_value,
+                valid_type = list,
+            )
+            bcc = catch_invalid_elements_type(
+                elements = bcc,
+                valid_type = str,
+            )
+            catch_invalid_email_addresses(bcc)
+        except ValidationError as exception:
+            error_message_base = base_field_error_message.format(field_name=FIELD_BCC)
+            _, error_message_body = exception.args
+            error_message = error_message_base + ' ' + error_message_body
+            error_messages.append(error_message)
+        else:
+            event_to_create.bcc = bcc
 
     # Sender name
 

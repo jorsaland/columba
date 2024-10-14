@@ -26,10 +26,20 @@ ordered_fields = [
     FIELD_RUNTIME := 'runtime',
     FIELD_PERIOD := 'period',
 
+    FIELD_TO := 'to',
+    FIELD_CC := 'cc',
+    FIELD_BCC := 'bcc',
+
     FIELD_SENDER_NAME := 'sender_name',
     FIELD_SUBJECT := 'subject',
     FIELD_IS_HTML := 'is_html',
     FIELD_MESSAGE := 'message',
+]
+
+substring_query_fields = [
+    FIELD_TO,
+    FIELD_CC,
+    FIELD_BCC,
 ]
 
 
@@ -40,6 +50,9 @@ valid_query_params = [
     FIELD_STATE,
     FIELD_RUNTIME,
     FIELD_PERIOD,
+    FIELD_TO,
+    FIELD_CC,
+    FIELD_BCC,
     FIELD_SENDER_NAME,
     FIELD_SUBJECT,
 ]
@@ -48,6 +61,9 @@ creation_request_valid_fields = [
     FIELD_STATE,
     FIELD_RUNTIME,
     FIELD_PERIOD,
+    FIELD_TO,
+    FIELD_CC,
+    FIELD_BCC,
     FIELD_SENDER_NAME,
     FIELD_SUBJECT,
     FIELD_IS_HTML,
@@ -62,6 +78,9 @@ update_request_valid_fields = [
     FIELD_STATE,
     FIELD_RUNTIME,
     FIELD_PERIOD,
+    FIELD_TO,
+    FIELD_CC,
+    FIELD_BCC,
     FIELD_SENDER_NAME,
     FIELD_SUBJECT,
     FIELD_IS_HTML,

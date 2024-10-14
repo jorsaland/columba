@@ -4,7 +4,7 @@ from sqlalchemy import MetaData, insert, select, update, delete
 from typing import Any
 
 
-from app.constants import ordered_fields
+from app.constants import ordered_fields, substring_query_fields
 from app.entities import Event
 from app.internal_messages import response_message_not_found
 from app.utils.exceptions import ValidationError
@@ -91,7 +91,10 @@ class EventsRepository:
 
         statement = select(cls._table)
         for field_name, field_value in filters.as_database_dict().items():
-            statement = statement.where(getattr(cls._table.c, field_name) == field_value)
+            if field_name in substring_query_fields:
+                statement = statement.where(getattr(cls._table.c, field_name).like(f'%{field_value}%'))
+            else:
+                statement = statement.where(getattr(cls._table.c, field_name) == field_value)
 
         with cls._engine.connect() as connection:
             result = connection.execute(statement)

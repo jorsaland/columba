@@ -14,6 +14,9 @@ from app.constants import (
     FIELD_COUNTS,
     FIELD_RUNTIME,
     FIELD_PERIOD,
+    FIELD_TO,
+    FIELD_CC,
+    FIELD_BCC,
     FIELD_SENDER_NAME,
     FIELD_SUBJECT,
     FIELD_IS_HTML,
@@ -42,6 +45,10 @@ class Event:
     runtime: (datetime|None) = None
     period: (timedelta|None) = None
 
+    to: (list[str]|None) = None
+    cc: (list[str]|None) = None
+    bcc: (list[str]|None) = None
+
     sender_name: (str|None) = None
     subject: (str|None) = None
     is_html: (bool|None) = None
@@ -66,6 +73,12 @@ class Event:
             database_dict[FIELD_RUNTIME] = convert_datetime_to_str(self.runtime)
         if self.period is not None:
             database_dict[FIELD_PERIOD] = convert_timedelta_to_int(self.period)
+        if self.to is not None:
+            database_dict[FIELD_TO] = ','.join(self.to)
+        if self.cc is not None:
+            database_dict[FIELD_CC] = ','.join(self.cc)
+        if self.bcc is not None:
+            database_dict[FIELD_BCC] = ','.join(self.bcc)
         if self.sender_name is not None:
             database_dict[FIELD_SENDER_NAME] = self.sender_name
         if self.subject is not None:
@@ -96,6 +109,12 @@ class Event:
             response_dict[FIELD_RUNTIME] = convert_datetime_to_str(self.runtime)
         if self.period is not None:
             response_dict[FIELD_PERIOD] = convert_timedelta_to_str(self.period)
+        if self.to is not None:
+            response_dict[FIELD_TO] = self.to
+        if self.cc is not None:
+            response_dict[FIELD_CC] = self.cc
+        if self.bcc is not None:
+            response_dict[FIELD_BCC] = self.bcc
         if self.sender_name is not None:
             response_dict[FIELD_SENDER_NAME] = self.sender_name
         if self.subject is not None:
@@ -127,6 +146,12 @@ class Event:
             event.runtime = datetime.fromisoformat(value)
         if (value := database_dict.get(FIELD_PERIOD)) is not None:
             event.period = timedelta(minutes=value)
+        if (value := database_dict.get(FIELD_TO)) is not None:
+            event.to = value.split(',')
+        if (value := database_dict.get(FIELD_CC)) is not None:
+            event.cc = value.split(',')
+        if (value := database_dict.get(FIELD_BCC)) is not None:
+            event.bcc = value.split(',')
         if (value := database_dict.get(FIELD_SENDER_NAME)) is not None:
             event.sender_name = value
         if (value := database_dict.get(FIELD_SUBJECT)) is not None:
