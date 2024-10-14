@@ -1,10 +1,10 @@
 """
-Columba 0.5
+Columba 0.6
 https://github.com/jorsaland/columba
 
 A back-end Web app capable of scheduling emails.
 
-In version 0.5, emails include subject and HTML format.
+In version 0.6, emails include To, CC and BCC.
 
 ----------------------------------------------------------------------
 
